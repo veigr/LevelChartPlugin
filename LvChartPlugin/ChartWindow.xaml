@@ -1,0 +1,233 @@
+﻿<metro:MetroWindow x:Class="LvChartPlugin.ChartWindow"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+                   xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+                   xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Views.Controls;assembly=KanColleViewer"
+                   xmlns:lvChartPlugin="clr-namespace:LvChartPlugin"
+                   mc:Ignorable="d"
+                   Title="LvChart"
+                   Width="1000"
+                   Height="900"
+                   FontSize="12"
+                   Background="{DynamicResource ThemeBrushKey}"
+                   Foreground="{DynamicResource ActiveForegroundBrushKey}"
+                   IsRestoringWindowPlacement="True"
+                   SnapsToDevicePixels="True"
+                   TextOptions.TextFormattingMode="Display">
+
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/Desktop.Metro;component/Styles/Controls.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </metro:MetroWindow.Resources>
+
+    <metro:MetroWindow.DataContext>
+        <lvChartPlugin:ChartWindowViewModel/>
+    </metro:MetroWindow.DataContext>
+    
+     <i:Interaction.Triggers>
+     
+        <!--Viewに特別な要件が存在しない限りは、トリガーやアクションの自作にこだわらず積極的にコードビハインドを使いましょう -->
+        <!--Viewのコードビハインドは、基本的にView内で完結するロジックとViewModelからのイベントの受信(専用リスナを使用する)に限るとトラブルが少なくなります -->
+        <!--Livet1.1からはコードビハインドでViewModelのイベントを受信するためのWeakEventLisnterサポートが追加されています --> 
+        
+        <!--WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます-->
+        <i:EventTrigger EventName="ContentRendered">
+            <livet:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
+        </i:EventTrigger>
+
+        <!--Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます-->
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction/>
+        </i:EventTrigger>
+
+        <!--WindowのCloseキャンセル処理に対応する場合は、WindowCloseCancelBehaviorの使用を検討してください-->
+
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- #region CaptionBar -->
+        <Border metro:MetroWindow.IsCaptionBar="True"
+                Panel.ZIndex="100">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <controls:AppIcon Width="36"
+                                  Height="36"
+                                  Background="Transparent"
+                                  AnchorVisibility="Collapsed"
+                                  BandVisibility="Collapsed" />
+
+                <TextBlock Grid.Column="1"
+                           Text="Level Chart"
+                           Style="{DynamicResource CaptionTextStyleKey}"
+                           Margin="2,0,8,0" />
+
+                <metro:SystemButtons Grid.Column="2"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top" />
+            </Grid>
+        </Border>
+        <!-- #endregion -->
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <lvChartPlugin:ShipLevelChart Grid.Column="0"
+                                          Ships="{Binding Ships}"
+                                          CountMaximum="{Binding ElementName=CountMaximumSlider, Path=Value}"
+                                          LevelMaximum="{Binding ElementName=LevelMaximumSlider, Path=Value}"
+                                          LevelMinimum="{Binding ElementName=LevelMinimumSlider, Path=Value}"
+                                          LevelInterval="{Binding ElementName=LevelIntervalSlider, Path=Value}"/>
+            
+            <Expander Grid.Column="1"
+                      ExpandDirection="Right"
+                      Header="Settings">
+                <Expander.Style>
+                    <Style/>
+                </Expander.Style>
+                <Expander.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </DataTemplate>
+                </Expander.HeaderTemplate>
+                
+                <Grid Width="130">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="Count Maximum"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5,5,5,0"/>
+                        <Slider x:Name="CountMaximumSlider"
+                                Maximum="{Binding CountMaximum}"
+                                Minimum="1"
+                                TickPlacement="BottomRight"
+                                IsSnapToTickEnabled="True"
+                                TickFrequency="1"
+                                Value="11"
+                                AutoToolTipPlacement="BottomRight"
+                                Margin="5"/>
+
+                        <TextBlock Text="Level Maximum"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5,5,5,0"/>
+                        <Slider x:Name="LevelMaximumSlider"
+                                Maximum="150"
+                                Minimum="9"
+                                TickPlacement="BottomRight"
+                                IsSnapToTickEnabled="True"
+                                TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
+                                Value="150"
+                                AutoToolTipPlacement="BottomRight"
+                                Margin="5"/>
+
+                        <TextBlock Text="Level Minimum"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5,5,5,0"/>
+                        <Slider x:Name="LevelMinimumSlider"
+                                Maximum="150"
+                                Minimum="0"
+                                TickPlacement="BottomRight"
+                                IsSnapToTickEnabled="True"
+                                TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
+                                Value="0"
+                                AutoToolTipPlacement="BottomRight"
+                                Margin="5"/>
+
+                        <TextBlock Text="Level Interval"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5,5,5,0"/>
+                        <Slider x:Name="LevelIntervalSlider"
+                                Maximum="20"
+                                Minimum="1"
+                                TickPlacement="BottomRight"
+                                IsSnapToTickEnabled="True"
+                                TickFrequency="1"
+                                Value="{Binding LevelInterval}"
+                                AutoToolTipPlacement="BottomRight"
+                                Margin="5"/>
+
+                        <Rectangle Height="1"
+                                   Margin="5"
+                                   Style="{DynamicResource SeparatorRectangleStyleKey}" />
+                        
+                        <TextBlock Text="Ship Type"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5"/>
+                        <CheckBox Content="Check ALL"
+                                  IsChecked="{Binding IsCheckALL, Mode=TwoWay}"
+                                  Margin="5"/>
+                        <ItemsControl ItemsSource="{Binding ShipTypes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                              Margin="5">
+                                        <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
+                                    </CheckBox>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Rectangle Height="1"
+                                   Margin="5"
+                                   Style="{DynamicResource SeparatorRectangleStyleKey}" />
+
+                        <TextBlock Text="Locked Only"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5"/>
+                        <CheckBox Content="IsLocked"
+                                  IsChecked="{Binding IsLocked, Mode=TwoWay}"
+                                  Margin="5"/>
+                    </StackPanel>
+                </Grid>
+                
+            </Expander>
+        </Grid>
+
+    </Grid>
+    
+</metro:MetroWindow>
