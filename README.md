@@ -11,7 +11,7 @@
 ### 使用ライブラリ
 
 * [KanColleViewer](http://grabacr.net/kancolleviewer)
-* [KanColleViewerMetroRadiance](https://www.nuget.org/packages/MetroRadiance)
+* [MetroRadiance](https://www.nuget.org/packages/MetroRadiance)
 * [Reactive Extensions](http://rx.codeplex.com/)
 * [Livet](http://ugaya40.hateblo.jp/entry/Livet)
 * [FiddlerCore](http://www.telerik.com/fiddler/fiddlercore)
