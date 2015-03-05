@@ -20,20 +20,7 @@
                    TextOptions.TextFormattingMode="Display">
 
     <metro:MetroWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Icons.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Dark.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />
-
-                <ResourceDictionary Source="pack://application:,,,/Desktop.Metro;component/Styles/Controls.xaml" />
-
-                <ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/KanColleViewer;component/Themes/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="Styles/PluginStyle.xaml"/>
     </metro:MetroWindow.Resources>
 
     <metro:MetroWindow.DataContext>
