@@ -9,7 +9,7 @@
                    xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Views.Controls;assembly=KanColleViewer"
                    xmlns:lvChartPlugin="clr-namespace:LvChartPlugin"
                    mc:Ignorable="d"
-                   Title="LvChart"
+                   Title="Level Chart"
                    Width="1000"
                    Height="900"
                    FontSize="12"
@@ -110,7 +110,8 @@
             
             <Expander Grid.Column="1"
                       ExpandDirection="Right"
-                      Header="Settings">
+                      Header="Settings"
+                      Background="{DynamicResource ActiveBackgroundBrushKey}">
                 <Expander.Style>
                     <Style/>
                 </Expander.Style>
@@ -125,106 +126,110 @@
                         </TextBlock>
                     </DataTemplate>
                 </Expander.HeaderTemplate>
+
+                <Border BorderBrush="{DynamicResource BorderBrushKey}"
+                        BorderThickness="2">
                 
-                <Grid Width="130">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                    <Grid Width="130"
+                          Background="{DynamicResource ThemeBrushKey}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="1">
-                        <TextBlock Text="Count Maximum"
-                                   Style="{DynamicResource DefaultTextStyleKey}"
-                                   Margin="5,5,5,0"/>
-                        <Slider x:Name="CountMaximumSlider"
-                                Maximum="{Binding CountMaximum}"
-                                Minimum="1"
-                                TickPlacement="BottomRight"
-                                IsSnapToTickEnabled="True"
-                                TickFrequency="1"
-                                Value="11"
-                                AutoToolTipPlacement="BottomRight"
-                                Margin="5"/>
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Text="Count Maximum"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5,5,5,0"/>
+                            <Slider x:Name="CountMaximumSlider"
+                                    Maximum="{Binding CountMaximum}"
+                                    Minimum="1"
+                                    TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    TickFrequency="1"
+                                    Value="11"
+                                    AutoToolTipPlacement="BottomRight"
+                                    Margin="5"/>
 
-                        <TextBlock Text="Level Maximum"
-                                   Style="{DynamicResource DefaultTextStyleKey}"
-                                   Margin="5,5,5,0"/>
-                        <Slider x:Name="LevelMaximumSlider"
-                                Maximum="150"
-                                Minimum="9"
-                                TickPlacement="BottomRight"
-                                IsSnapToTickEnabled="True"
-                                TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
-                                Value="150"
-                                AutoToolTipPlacement="BottomRight"
-                                Margin="5"/>
+                            <TextBlock Text="Level Maximum"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5,5,5,0"/>
+                            <Slider x:Name="LevelMaximumSlider"
+                                    Maximum="150"
+                                    Minimum="9"
+                                    TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
+                                    Value="150"
+                                    AutoToolTipPlacement="BottomRight"
+                                    Margin="5"/>
 
-                        <TextBlock Text="Level Minimum"
-                                   Style="{DynamicResource DefaultTextStyleKey}"
-                                   Margin="5,5,5,0"/>
-                        <Slider x:Name="LevelMinimumSlider"
-                                Maximum="150"
-                                Minimum="0"
-                                TickPlacement="BottomRight"
-                                IsSnapToTickEnabled="True"
-                                TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
-                                Value="0"
-                                AutoToolTipPlacement="BottomRight"
-                                Margin="5"/>
+                            <TextBlock Text="Level Minimum"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5,5,5,0"/>
+                            <Slider x:Name="LevelMinimumSlider"
+                                    Maximum="150"
+                                    Minimum="0"
+                                    TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
+                                    Value="0"
+                                    AutoToolTipPlacement="BottomRight"
+                                    Margin="5"/>
 
-                        <TextBlock Text="Level Interval"
-                                   Style="{DynamicResource DefaultTextStyleKey}"
-                                   Margin="5,5,5,0"/>
-                        <Slider x:Name="LevelIntervalSlider"
-                                Maximum="20"
-                                Minimum="1"
-                                TickPlacement="BottomRight"
-                                IsSnapToTickEnabled="True"
-                                TickFrequency="1"
-                                Value="{Binding LevelInterval}"
-                                AutoToolTipPlacement="BottomRight"
-                                Margin="5"/>
+                            <TextBlock Text="Level Interval"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5,5,5,0"/>
+                            <Slider x:Name="LevelIntervalSlider"
+                                    Maximum="20"
+                                    Minimum="1"
+                                    TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    TickFrequency="1"
+                                    Value="{Binding LevelInterval}"
+                                    AutoToolTipPlacement="BottomRight"
+                                    Margin="5"/>
 
-                        <Rectangle Height="1"
-                                   Margin="5"
-                                   Style="{DynamicResource SeparatorRectangleStyleKey}" />
+                            <Rectangle Height="1"
+                                       Margin="5"
+                                       Style="{DynamicResource SeparatorRectangleStyleKey}" />
                         
-                        <TextBlock Text="Ship Type"
-                                   Style="{DynamicResource DefaultTextStyleKey}"
-                                   Margin="5"/>
-                        <CheckBox Content="Check ALL"
-                                  IsChecked="{Binding IsCheckALL, Mode=TwoWay}"
-                                  Margin="5"/>
-                        <ItemsControl ItemsSource="{Binding ShipTypes}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                                              Margin="5">
-                                        <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
-                                    </CheckBox>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            <TextBlock Text="Ship Type"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5"/>
+                            <CheckBox Content="Check ALL"
+                                      IsChecked="{Binding IsCheckALL, Mode=TwoWay}"
+                                      Margin="5"/>
+                            <ItemsControl ItemsSource="{Binding ShipTypes}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                  Margin="5">
+                                            <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
 
-                        <Rectangle Height="1"
-                                   Margin="5"
-                                   Style="{DynamicResource SeparatorRectangleStyleKey}" />
+                            <Rectangle Height="1"
+                                       Margin="5"
+                                       Style="{DynamicResource SeparatorRectangleStyleKey}" />
 
-                        <TextBlock Text="Locked Only"
-                                   Style="{DynamicResource DefaultTextStyleKey}"
-                                   Margin="5"/>
-                        <CheckBox Content="IsLocked"
-                                  IsChecked="{Binding IsLocked, Mode=TwoWay}"
-                                  Margin="5"/>
-                    </StackPanel>
-                </Grid>
-                
+                            <TextBlock Text="Locked Only"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5"/>
+                            <CheckBox Content="IsLocked"
+                                      IsChecked="{Binding IsLocked, Mode=TwoWay}"
+                                      Margin="5"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </Expander>
         </Grid>
 
