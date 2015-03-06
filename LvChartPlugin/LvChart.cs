@@ -14,7 +14,7 @@ namespace LvChartPlugin
 
         public object GetToolView()
         {
-            return new ToolView {DataContext = this.vm};
+            return new ToolView { DataContext = this.vm };
         }
 
         public string ToolName

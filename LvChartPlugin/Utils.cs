@@ -30,32 +30,17 @@ namespace LvChartPlugin
                 .GroupBy(
                     x => x.Info.ShipType,
                     x => x,
-                    (shipType, elements) => new KeyValuePair<ShipType, IReadOnlyDictionary<string, Tuple<int, string>>>
-                        (
-                        shipType,
-                        elements
-                            .Where(x => x.Level <= maximum)
-                            .Where(x => minimum <= x.Level)
-                            .OrderBy(x => x.Level)
-                            .GroupBy(
-                                x => x.Level.LevelToPart(interval),
-                                x => x,
-                                (level, x) => new { level, count = x.Count(), name = x.ToTooltipNames() })
-                            .Aggregate(CreateLevelGroupsDictionary(interval, minimum, maximum),
-                                (result, x) =>
-                                {
-                                    if (result.ContainsKey(x.level)) result[x.level] = Tuple.Create(x.count, x.name);
-                                    return result;
-                                })
-                        )
-                ).ToDictionary(x => x.Key, x => x.Value);
+                    (shipType, elements) =>
+                        new KeyValuePair<ShipType, IReadOnlyDictionary<string, Tuple<int, string>>>
+                            (shipType, elements.GroupByLevel(interval, minimum, maximum))
+                ).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
         public static IReadOnlyDictionary<TX, Tuple<int, string>> SumValues<TX>(
-            this IEnumerable<IReadOnlyDictionary<TX, Tuple<int, string>>> perStypeData)
+            this IEnumerable<IReadOnlyDictionary<TX, Tuple<int, string>>> sources)
         {
             var dic = new Dictionary<TX, Tuple<int, string>>();
-            foreach (var data in perStypeData)
+            foreach (var data in sources)
             {
                 foreach (var key in data.Keys)
                 {
@@ -80,17 +65,33 @@ namespace LvChartPlugin
             return source.Max(x => x.Value.Item1) + 1;
         }
 
+        private static IReadOnlyDictionary<string, Tuple<int, string>> GroupByLevel(
+            this IEnumerable<Ship> ships,
+            int interval,
+            int minimum,
+            int maximum)
+        {
+            return ships
+                .Where(x => x.Level <= maximum)
+                .Where(x => minimum <= x.Level)
+                .OrderBy(x => x.Level)
+                .GroupBy(
+                    x => x.Level.LevelToPart(interval),
+                    x => x,
+                    (level, x) => new { level, count = x.Count(), name = x.ToTooltipNames() })
+                .Aggregate(CreateLevelGroupsDictionary(interval, minimum, maximum),
+                    (result, x) =>
+                    {
+                        if (result.ContainsKey(x.level))
+                            result[x.level] = Tuple.Create(x.count, x.name);
+                        return result;
+                    });
+        }
+
         private static Dictionary<string, Tuple<int, string>> CreateLevelGroupsDictionary(int interval, int min, int max)
         {
             return CreateLevelGroups(interval, min, max)
                 .ToDictionary(x => x, x => Tuple.Create(0, ""));
-        }
-
-        private static string LevelToPart(this int level, int interval)
-        {
-            var div = level / interval;
-            var min = div * interval;
-            return min + "Å`";
         }
 
         private static IEnumerable<string> CreateLevelGroups(int interval, int min, int max)
@@ -99,6 +100,13 @@ namespace LvChartPlugin
             {
                 yield return i.LevelToPart(interval);
             }
+        }
+
+        private static string LevelToPart(this int level, int interval)
+        {
+            var div = level / interval;
+            var min = div * interval;
+            return min + "Å`";
         }
 
         private static string ToTooltipNames(this IEnumerable<Ship> ships)

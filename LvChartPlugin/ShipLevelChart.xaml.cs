@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms.DataVisualization.Charting;
 using Grabacr07.KanColleWrapper.Models;
-using System.Windows.Media;
 
 namespace LvChartPlugin
 {
@@ -114,12 +113,11 @@ namespace LvChartPlugin
 
         private void CreateShipLevelChart()
         {
-
             if (this.Ships == null) return;
 
             var source = CollectionViewSource.GetDefaultView(this.Ships).Cast<Ship>().ToArray();
             var data = source.CreateShipData(this.LevelInterval, this.LevelMinimum, this.LevelMaximum);
-            this.CreateChart(data, (x) => x.ToTypeName());
+            this.CreateChart(data, x => x.ToTypeName());
         }
 
         private void CreateChart<TKey, TX>(
@@ -136,21 +134,21 @@ namespace LvChartPlugin
             var allData = data.Values.SumValues();
             if (allData.Values.Sum(x => x.Item1) < 1) return;   //1隻も選択されていない
 
-            var yMax = Math.Min(this.CountMaximum, allData.CountMaximum());
-            yMax = Math.Max(yMax, 5);   //最小でも5
+            var yMax = Math.Min(this.CountMaximum, allData.CountMaximum()); //自動スケール
+            yMax = Math.Max(yMax, 1);   //最小でも1
 
-            this.CreateAddChartArea("選択艦合計", yMax, allData);
+            this.AddChartArea("選択艦合計", yMax, allData);
 
             foreach (var key in data.Keys)
             {
                 var areaName = areaNameSelector(key);
                 var areaValue = data[key];
 
-                this.CreateAddChartArea(areaName, yMax, areaValue);
+                this.AddChartArea(areaName, yMax, areaValue);
             }
         }
 
-        private void CreateAddChartArea<TX>(string areaName, int yMax, IReadOnlyDictionary<TX, Tuple<int, string>> areaValue)
+        private void AddChartArea<TX>(string areaName, int yMax, IReadOnlyDictionary<TX, Tuple<int, string>> areaValue)
         {
             var area = this.CreateArea(areaName + " (" + areaValue.Sum(x => x.Value.Item1) + " 隻)", yMax);
             this.Chart.ChartAreas.Add(area);
@@ -184,6 +182,7 @@ namespace LvChartPlugin
             });
         }
 
+
         private ChartArea CreateArea(string name, int yMax)
         {
             var backColor = this.Background.ToDrawingColor();
@@ -197,7 +196,6 @@ namespace LvChartPlugin
                     Interval = 1,
                     LineColor = foreColor,
                     TitleForeColor = foreColor,
-                    InterlacedColor = foreColor,
                 },
                 AxisY =
                 {

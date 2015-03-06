@@ -105,17 +105,17 @@ namespace LvChartPlugin
 
         public ChartWindowViewModel()
         {
-            if (KanColleClient.Current.IsStarted) this.ShipTypes =
-                 KanColleClient.Current.Master.Ships
-                 .Where(x => x.Value.Id < 501 || 900 < x.Value.Id)  //敵以外
-                 .GroupBy(x => x.Value.ShipType, (key, elements) => key)
-                 .OrderBy(x => x.Id)
-                 .Select(x => new ShipTypeViewModel(x)
-                 {
-                     IsSelected = true,
-                     SelectionChangedAction = () => this.UpdateView()
-                 })
-                 .ToArray();
+            if (KanColleClient.Current.IsStarted)
+                this.ShipTypes = KanColleClient.Current.Master.Ships //艦娘マスタで使ってるタイプだけ
+                    .Where(x => x.Value.Id < 501 || 900 < x.Value.Id) //敵以外
+                    .GroupBy(x => x.Value.ShipType, (key, elements) => key)
+                    .OrderBy(x => x.Id)
+                    .Select(x => new ShipTypeViewModel(x) //艦娘一覧の使い回し。本体の変更で死ぬ可能性……
+                    {
+                        IsSelected = true,
+                        SelectionChangedAction = () => this.UpdateView()
+                    })
+                    .ToArray();
             this.LevelInterval = 10;
             this.IsLocked = true;
             this.IsCheckALL = true;
@@ -123,17 +123,13 @@ namespace LvChartPlugin
 
         public void Initialize()
         {
-            this._Ships = KanColleClient.Current.Homeport.Organization.Ships.Values.ToArray();
             this.UpdateView();
 
             this.CompositeDisposable.Add(new PropertyChangedEventListener(KanColleClient.Current.Homeport.Organization)
             {
                 {
                     () => KanColleClient.Current.Homeport.Organization.Ships,
-                    (_, __) =>
-                    {
-                        DispatcherHelper.UIDispatcher.Invoke(this.UpdateView);
-                    }
+                    (_, __) => { DispatcherHelper.UIDispatcher.Invoke(this.UpdateView); }
                 }
             });
         }
