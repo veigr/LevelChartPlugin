@@ -7,16 +7,12 @@ namespace LvChartPlugin
 {
     internal static class Utils
     {
-        public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Color color)
+        public static System.Drawing.Color ToDrawingColor(this System.Windows.Media.Brush brush)
         {
+            var solidColorBrush = brush as System.Windows.Media.SolidColorBrush;
+            if (solidColorBrush == null) return System.Drawing.Color.Transparent;
+            var color = solidColorBrush.Color;
             return System.Drawing.Color.FromArgb(color.R, color.G, color.B);
-        }
-
-        private static string LevelToPart(this int level, int interval)
-        {
-            var div = level / interval;
-            var min = div * interval;
-            return min + "Å`";
         }
 
         public static string ToTypeName(this ShipType type)
@@ -55,10 +51,46 @@ namespace LvChartPlugin
                 ).ToDictionary(x => x.Key, x => x.Value);
         }
 
+        public static IReadOnlyDictionary<TX, Tuple<int, string>> SumValues<TX>(
+            this IEnumerable<IReadOnlyDictionary<TX, Tuple<int, string>>> perStypeData)
+        {
+            var dic = new Dictionary<TX, Tuple<int, string>>();
+            foreach (var data in perStypeData)
+            {
+                foreach (var key in data.Keys)
+                {
+                    Tuple<int, string> value;
+                    if (dic.TryGetValue(key, out value))
+                    {
+                        dic[key] = Tuple.Create(
+                            value.Item1 + data[key].Item1,
+                            string.Join(", ", value.Item2, data[key].Item2));
+                    }
+                    else
+                    {
+                        dic.Add(key, data[key]);
+                    }
+                }
+            }
+            return dic;
+        }
+
+        public static int CountMaximum<TX>(this IReadOnlyDictionary<TX, Tuple<int, string>> source)
+        {
+            return source.Max(x => x.Value.Item1) + 1;
+        }
+
         private static Dictionary<string, Tuple<int, string>> CreateLevelGroupsDictionary(int interval, int min, int max)
         {
             return CreateLevelGroups(interval, min, max)
                 .ToDictionary(x => x, x => Tuple.Create(0, ""));
+        }
+
+        private static string LevelToPart(this int level, int interval)
+        {
+            var div = level / interval;
+            var min = div * interval;
+            return min + "Å`";
         }
 
         private static IEnumerable<string> CreateLevelGroups(int interval, int min, int max)

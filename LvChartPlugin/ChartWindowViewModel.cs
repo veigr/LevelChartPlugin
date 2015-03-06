@@ -107,7 +107,7 @@ namespace LvChartPlugin
         {
             if (KanColleClient.Current.IsStarted) this.ShipTypes =
                  KanColleClient.Current.Master.Ships
-                 .Where(x => x.Value.Id < 501)
+                 .Where(x => x.Value.Id < 501 || 900 < x.Value.Id)  //敵以外
                  .GroupBy(x => x.Value.ShipType, (key, elements) => key)
                  .OrderBy(x => x.Id)
                  .Select(x => new ShipTypeViewModel(x)
@@ -157,7 +157,7 @@ namespace LvChartPlugin
             if (this.Ships == null) return;
 
             this.CountMaximum = this.Ships.Any()
-                ? this.Ships.CreateShipData(this.LevelInterval).Values.Max(x => x.Values.Max(t => t.Item1)) + 2
+                ? this.Ships.CreateShipData(this.LevelInterval).Values.SumValues().CountMaximum()
                 : 11;
         }
 

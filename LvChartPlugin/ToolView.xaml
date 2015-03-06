@@ -8,7 +8,9 @@
              xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
              xmlns:lvChartPlugin="clr-namespace:LvChartPlugin"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance lvChartPlugin:ToolViewModel}">
 
     <UserControl.Resources>
         <ResourceDictionary Source="Styles/PluginStyle.xaml"/>
