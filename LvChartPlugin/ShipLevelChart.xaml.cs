@@ -110,7 +110,6 @@ namespace LvChartPlugin
         public ShipLevelChart()
         {
             this.InitializeComponent();
-
         }
 
         private void CreateShipLevelChart()
@@ -153,7 +152,7 @@ namespace LvChartPlugin
 
         private void CreateAddChartArea<TX>(string areaName, int yMax, IReadOnlyDictionary<TX, Tuple<int, string>> areaValue)
         {
-            var area = this.CreateArea(areaName + " (" + areaValue.Sum(x => x.Value.Item1) + "隻)", yMax);
+            var area = this.CreateArea(areaName + " (" + areaValue.Sum(x => x.Value.Item1) + " 隻)", yMax);
             this.Chart.ChartAreas.Add(area);
 
             var series = new Series(area.Name)
@@ -164,6 +163,7 @@ namespace LvChartPlugin
                 LabelBackColor = this.Background.ToDrawingColor(),
                 LabelForeColor = this.Foreground.ToDrawingColor(),
             };
+            
             foreach (var xKey in areaValue.Keys)
             {
                 var point = new DataPoint();

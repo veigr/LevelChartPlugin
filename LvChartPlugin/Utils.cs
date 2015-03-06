@@ -103,7 +103,7 @@ namespace LvChartPlugin
 
         private static string ToTooltipNames(this IEnumerable<Ship> ships)
         {
-            return string.Join(", ", ships.Select(x => x.Info.Name));
+            return string.Join(", ", ships.OrderByDescending(x => x.Level).Select(x => x.Info.Name));
         }
 
         private static string JoinString(this string value1, string separator, string value2)
