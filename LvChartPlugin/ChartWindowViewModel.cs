@@ -123,7 +123,8 @@ namespace LvChartPlugin
 
         public void Initialize()
         {
-            this.Ships = KanColleClient.Current.Homeport.Organization.Ships.Values.ToArray();
+            this._Ships = KanColleClient.Current.Homeport.Organization.Ships.Values.ToArray();
+            this.UpdateView();
 
             this.CompositeDisposable.Add(new PropertyChangedEventListener(KanColleClient.Current.Homeport.Organization)
             {

@@ -140,7 +140,7 @@ namespace LvChartPlugin
             var yMax = Math.Min(this.CountMaximum, allData.CountMaximum());
             yMax = Math.Max(yMax, 5);   //最小でも5
 
-            this.CreateAddChartArea("選択艦種合計", yMax, allData);
+            this.CreateAddChartArea("選択艦合計", yMax, allData);
 
             foreach (var key in data.Keys)
             {
@@ -153,7 +153,7 @@ namespace LvChartPlugin
 
         private void CreateAddChartArea<TX>(string areaName, int yMax, IReadOnlyDictionary<TX, Tuple<int, string>> areaValue)
         {
-            var area = this.CreateArea(areaName, yMax);
+            var area = this.CreateArea(areaName + " (" + areaValue.Sum(x => x.Value.Item1) + "隻)", yMax);
             this.Chart.ChartAreas.Add(area);
 
             var series = new Series(area.Name)
@@ -161,7 +161,6 @@ namespace LvChartPlugin
                 ChartType = SeriesChartType.Column,
                 ChartArea = area.Name,
                 Legend = area.Name,
-                LabelAngle = 30,
                 LabelBackColor = this.Background.ToDrawingColor(),
                 LabelForeColor = this.Foreground.ToDrawingColor(),
             };

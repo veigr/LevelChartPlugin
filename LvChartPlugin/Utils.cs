@@ -64,7 +64,7 @@ namespace LvChartPlugin
                     {
                         dic[key] = Tuple.Create(
                             value.Item1 + data[key].Item1,
-                            string.Join(", ", value.Item2, data[key].Item2));
+                            value.Item2.JoinString(", ", data[key].Item2));
                     }
                     else
                     {
@@ -104,6 +104,13 @@ namespace LvChartPlugin
         private static string ToTooltipNames(this IEnumerable<Ship> ships)
         {
             return string.Join(", ", ships.Select(x => x.Info.Name));
+        }
+
+        private static string JoinString(this string value1, string separator, string value2)
+        {
+            if (string.IsNullOrWhiteSpace(value1)) return value2;
+            if (string.IsNullOrWhiteSpace(value2)) return value1;
+            return string.Join(separator, value1, value2);
         }
     }
 }
