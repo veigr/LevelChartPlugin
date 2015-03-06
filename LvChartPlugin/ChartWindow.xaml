@@ -131,7 +131,7 @@
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="CountMaximumSlider"
                                     Maximum="{Binding CountMaximum}"
-                                    Minimum="1"
+                                    Minimum="5"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"
                                     TickFrequency="1"

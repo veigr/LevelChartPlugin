@@ -157,7 +157,7 @@ namespace LvChartPlugin
             if (this.Ships == null) return;
 
             this.CountMaximum = this.Ships.Any()
-                ? this.Ships.CreateShipData(this.LevelInterval).Values.Max(x => x.Values.Max()) + 2
+                ? this.Ships.CreateShipData(this.LevelInterval).Values.Max(x => x.Values.Max(t => t.Item1)) + 2
                 : 11;
         }
 

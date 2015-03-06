@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Forms.DataVisualization.Charting;
 using Grabacr07.KanColleWrapper.Models;
+using System.Windows.Media;
 
 namespace LvChartPlugin
 {
@@ -15,15 +15,12 @@ namespace LvChartPlugin
     /// </summary>
     public partial class ShipLevelChart : UserControl
     {
-        private readonly Color backColor;
-        private readonly Color foreColor;
-
         #region DependencyProperties
 
         private static void ParamsChanges(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var c = (ShipLevelChart)d;
-            c.CreateChart();
+            c.CreateShipLevelChart();
         }
 
         #region CountMaximum
@@ -102,77 +99,69 @@ namespace LvChartPlugin
 
         #endregion
 
+
+        #region BackgroundColor
+        public Color BackgroundColor
+        {
+            get { return (Color)GetValue(BackgroundColorProperty); }
+            set { SetValue(BackgroundColorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Background.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BackgroundColorProperty =
+            DependencyProperty.Register("BackgroundColor", typeof(Color), typeof(ShipLevelChart), new PropertyMetadata(Color.FromRgb(45, 45, 48), ParamsChanges));
+        #endregion
+
+
+        #region ForegroundColor
+        public Color ForegroundColor
+        {
+            get { return (Color)GetValue(ForegroundColorProperty); }
+            set { SetValue(ForegroundColorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Foreground.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ForegroundColorProperty =
+            DependencyProperty.Register("ForegroundColor", typeof(Color), typeof(ShipLevelChart), new PropertyMetadata(Color.FromRgb(200, 200, 200), ParamsChanges));
+        #endregion
+
         #endregion
 
         public ShipLevelChart()
         {
             this.InitializeComponent();
-
-            this.backColor = Color.FromArgb(45, 45, 48);
-            this.foreColor = Color.FromArgb(200, 200, 200);
-
-            this.Chart.BackColor = this.backColor;
-            this.Chart.ForeColor = this.foreColor;
         }
 
-        private void CreateChart(object sender = null, EventArgs args = null)
+        private void CreateShipLevelChart()
         {
+
+            if (this.Ships == null) return;
+
+            var source = CollectionViewSource.GetDefaultView(this.Ships).Cast<Ship>().ToArray();
+            var data = source.CreateShipData(this.LevelInterval, this.LevelMinimum, this.LevelMaximum);
+            this.CreateChart(data, (x) => x.ToTypeName());
+        }
+
+        private void CreateChart<TKey, TX>(
+            IReadOnlyDictionary<TKey, IReadOnlyDictionary<TX, Tuple<int, string>>> data,
+            Func<TKey, string> areaNameSelector)
+        {
+            this.Chart.BackColor = this.BackgroundColor.ToDrawingColor();
+            this.Chart.ForeColor = this.ForegroundColor.ToDrawingColor();
+
             this.Chart.ChartAreas.Clear();
             this.Chart.Series.Clear();
             this.Chart.Titles.Clear();
 
-            if (this.Ships == null) return;
-
-            var source = CollectionViewSource.GetDefaultView(this.Ships);
-            var data = source.Cast<Ship>().ToArray().CreateShipData(this.LevelInterval, this.LevelMinimum, this.LevelMaximum);
             var yMax = data.Any()
-                ? Math.Min(this.CountMaximum, data.Max(x => x.Value.Values.Max()) + 2)
+                ? Math.Min(this.CountMaximum, data.Max(x => x.Value.Values.Max(t => t.Item1)) + 2)
                 : this.CountMaximum;
             yMax = Math.Max(yMax, 5);
 
-            foreach (var shipType in data.Keys)
+            foreach (var key in data.Keys)
             {
-                var area = new ChartArea(shipType.ToTypeName())
-                {
-                    AxisX =
-                    {
-                        Title = "Level",
-                        IntervalAutoMode = IntervalAutoMode.FixedCount,
-                        Interval = 1,
-                        LineColor = this.foreColor,
-                        TitleForeColor = this.foreColor,
-                        InterlacedColor = this.foreColor,
-                        LabelStyle = new LabelStyle { ForeColor = this.foreColor },
-                    },
-                    AxisY =
-                    {
-                        Title = "Count",
-                        IntervalAutoMode = IntervalAutoMode.FixedCount,
-                        Interval = 5,
-                        Maximum = yMax,
-                        Minimum = 0,
-                        LineColor = this.foreColor,
-                        TitleForeColor = this.foreColor,
-                    },
-                    BackColor = this.backColor,
-                };
-
-                area.AxisX.LabelStyle.ForeColor = this.foreColor;
-                area.AxisX.MajorGrid.Enabled = false;
-                area.AxisX.MajorTickMark.LineColor = this.foreColor;
-                area.AxisX.MajorTickMark.LineDashStyle = ChartDashStyle.Dot;
-
-                area.AxisY.LabelStyle.ForeColor = this.foreColor;
-                area.AxisY.MajorTickMark.LineColor = this.foreColor;
-                area.AxisY.MajorGrid.LineColor = this.foreColor;
-
-                area.AxisY.MinorGrid.Enabled = true;
-                area.AxisY.MinorGrid.Interval = 1;
-                area.AxisY.MinorGrid.LineColor = this.foreColor;
-                area.AxisY.MinorGrid.LineDashStyle = ChartDashStyle.Dot;
-
+                var area = this.CreateArea(areaNameSelector(key), yMax);
                 this.Chart.ChartAreas.Add(area);
-                
 
                 var series = new Series(area.Name)
                 {
@@ -180,27 +169,72 @@ namespace LvChartPlugin
                     ChartArea = area.Name,
                     Legend = area.Name,
                     LabelAngle = 30,
-                    LabelBackColor = this.backColor,
-                    LabelForeColor = this.foreColor,
+                    LabelBackColor = this.BackgroundColor.ToDrawingColor(),
+                    LabelForeColor = this.ForegroundColor.ToDrawingColor(),
                 };
-                foreach (var key in data[shipType].Keys)
+                foreach (var xKey in data[key].Keys)
                 {
                     var point = new DataPoint();
-                    point.SetValueXY(key, data[shipType][key]);
-                    //point.ToolTip = key;
+                    point.SetValueXY(xKey, data[key][xKey].Item1);
+                    point.ToolTip = data[key][xKey].Item2;
                     series.Points.Add(point);
                 }
                 this.Chart.Series.Add(series);
+
                 this.Chart.Titles.Add(new Title
                 {
                     Text = area.Name,
                     DockedToChartArea = area.Name,
                     IsDockedInsideChartArea = false,
-                    Alignment = ContentAlignment.BottomRight,
-                    BackColor = this.backColor,
-                    ForeColor = this.foreColor,
+                    Alignment = System.Drawing.ContentAlignment.BottomRight,
+                    BackColor = this.BackgroundColor.ToDrawingColor(),
+                    ForeColor = this.ForegroundColor.ToDrawingColor(),
                 });
             }
+        }
+
+        private ChartArea CreateArea(string name, int yMax)
+        {
+            var backColor = this.BackgroundColor.ToDrawingColor();
+            var foreColor = this.ForegroundColor.ToDrawingColor();
+            var area = new ChartArea(name)
+            {
+                AxisX =
+                {
+                    Title = "Level",
+                    IntervalAutoMode = IntervalAutoMode.FixedCount,
+                    Interval = 1,
+                    LineColor = foreColor,
+                    TitleForeColor = foreColor,
+                    InterlacedColor = foreColor,
+                },
+                AxisY =
+                {
+                    Title = "Count",
+                    IntervalAutoMode = IntervalAutoMode.FixedCount,
+                    Interval = 5,
+                    Maximum = yMax,
+                    Minimum = 0,
+                    LineColor = foreColor,
+                    TitleForeColor = foreColor,
+                },
+                BackColor = backColor,
+            };
+
+            area.AxisX.LabelStyle.ForeColor = foreColor;
+            area.AxisX.MajorGrid.Enabled = false;
+            area.AxisX.MajorTickMark.LineColor = foreColor;
+            area.AxisX.MajorTickMark.LineDashStyle = ChartDashStyle.Dot;
+
+            area.AxisY.LabelStyle.ForeColor = foreColor;
+            area.AxisY.MajorTickMark.LineColor = foreColor;
+            area.AxisY.MajorGrid.LineColor = foreColor;
+            area.AxisY.MinorGrid.Enabled = true;
+            area.AxisY.MinorGrid.Interval = 1;
+            area.AxisY.MinorGrid.LineColor = foreColor;
+            area.AxisY.MinorGrid.LineDashStyle = ChartDashStyle.Dot;
+
+            return area;
         }
     }
 }
