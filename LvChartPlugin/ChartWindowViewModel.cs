@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Grabacr07.KanColleViewer.ViewModels.Catalogs;
 using Grabacr07.KanColleWrapper;
@@ -10,6 +11,7 @@ namespace LvChartPlugin
 {
     public class ChartWindowViewModel : ViewModel
     {
+        private static readonly int CountMaximumDefaulValue = 11;
 
         #region Ships変更通知プロパティ
         private IEnumerable<Ship> _Ships;
@@ -28,19 +30,37 @@ namespace LvChartPlugin
         #endregion
 
 
-        #region CountMaximum変更通知プロパティ
-        private int _CountMaximum;
+        #region CountMaximumMaxValue変更通知プロパティ
+        private int _CountMaximumMaxValue;
 
-        public int CountMaximum
+        public int CountMaximumMaxValue
         {
             get
-            { return this._CountMaximum; }
+            { return this._CountMaximumMaxValue; }
             set
             {
-                if (this._CountMaximum == value)
+                if (this._CountMaximumMaxValue == value)
                     return;
-                this._CountMaximum = value;
+                this._CountMaximumMaxValue = value;
                 this.RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+
+        #region CountMaximumCurrentValue変更通知プロパティ
+        private int _CountMaximumCurrentValue;
+
+        public int CountMaximumCurrentValue
+        {
+            get
+            { return _CountMaximumCurrentValue; }
+            set
+            { 
+                if (_CountMaximumCurrentValue == value)
+                    return;
+                _CountMaximumCurrentValue = value;
+                RaisePropertyChanged();
             }
         }
         #endregion
@@ -58,6 +78,7 @@ namespace LvChartPlugin
                 if (this._LevelInterval == value)
                     return;
                 this._LevelInterval = value;
+                this.UpdateCountMaximum();
                 this.RaisePropertyChanged();
             }
         }
@@ -116,6 +137,7 @@ namespace LvChartPlugin
                         SelectionChangedAction = () => this.UpdateView()
                     })
                     .ToArray();
+            this.CountMaximumCurrentValue = CountMaximumDefaulValue;
             this.LevelInterval = 10;
             this.IsLocked = true;
             this.IsCheckALL = true;
@@ -151,11 +173,20 @@ namespace LvChartPlugin
             this.Ships = KanColleClient.Current.Homeport.Organization.Ships.Values
                 .Where(this.FilterView).ToArray();
 
+            this.UpdateCountMaximum();
+        }
+
+        private void UpdateCountMaximum()
+        {
             if (this.Ships == null) return;
 
-            this.CountMaximum = this.Ships.Any()
+            var maxValue = this.Ships.Any()
                 ? this.Ships.CreateShipData(this.LevelInterval).Values.SumValues().CountMaximum()
-                : 11;
+                : CountMaximumDefaulValue;
+            maxValue = Math.Max(maxValue, CountMaximumDefaulValue);
+
+            this.CountMaximumCurrentValue = Math.Min(this.CountMaximumCurrentValue, maxValue);
+            this.CountMaximumMaxValue = maxValue;
         }
 
         private bool FilterView(Ship s)

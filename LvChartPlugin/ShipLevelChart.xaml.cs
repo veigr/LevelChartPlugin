@@ -36,7 +36,7 @@ namespace LvChartPlugin
             set { this.SetValue(CountMaximumProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for CountMaximum.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for CountMaximumMaxValue.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CountMaximumProperty =
             DependencyProperty.Register("CountMaximum", typeof(int), typeof(ShipLevelChart), new PropertyMetadata(11, ParamsChanges));
 
@@ -137,18 +137,18 @@ namespace LvChartPlugin
             var yMax = Math.Min(this.CountMaximum, allData.CountMaximum()); //自動スケール
             yMax = Math.Max(yMax, 1);   //最小でも1
 
-            this.AddChartArea("選択艦合計", yMax, allData);
+            this.AddChartArea("選択艦合計", allData, yMax);
 
             foreach (var key in data.Keys)
             {
                 var areaName = areaNameSelector(key);
                 var areaValue = data[key];
 
-                this.AddChartArea(areaName, yMax, areaValue);
+                this.AddChartArea(areaName, areaValue, yMax);
             }
         }
 
-        private void AddChartArea<TX>(string areaName, int yMax, IReadOnlyDictionary<TX, Tuple<int, string>> areaValue)
+        private void AddChartArea<TX>(string areaName, IReadOnlyDictionary<TX, Tuple<int, string>> areaValue, int yMax)
         {
             var area = this.CreateArea(areaName + " (" + areaValue.Sum(x => x.Value.Item1) + " 隻)", yMax);
             this.Chart.ChartAreas.Add(area);
