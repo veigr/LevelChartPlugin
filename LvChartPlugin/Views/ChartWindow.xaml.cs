@@ -3,7 +3,7 @@ using System.Windows;
 using Grabacr07.KanColleViewer.Views;
 using MetroRadiance.Controls;
 
-namespace LvChartPlugin
+namespace LvChartPlugin.Views
 {
     /* 
      * ViewModelからの変更通知などの各種イベントを受け取る場合は、PropertyChangedWeakEventListenerや

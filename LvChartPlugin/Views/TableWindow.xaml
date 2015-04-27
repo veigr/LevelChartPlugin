@@ -1,0 +1,188 @@
+﻿<metro:MetroWindow x:Class="LvChartPlugin.Views.TableWindow"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
+                   xmlns:viewModels="clr-namespace:LvChartPlugin.ViewModels"
+                   xmlns:models="clr-namespace:Grabacr07.KanColleWrapper.Models;assembly=KanColleWrapper"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
+                   xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Views.Controls;assembly=KanColleViewer"
+                   mc:Ignorable="d" 
+                   Title="Level Chart"
+                   Width="1000"
+                   Height="900"
+                   FontSize="12"
+                   Background="{DynamicResource ThemeBrushKey}"
+                   Foreground="{DynamicResource ActiveForegroundBrushKey}"
+                   IsRestoringWindowPlacement="True"
+                   SnapsToDevicePixels="True"
+                   TextOptions.TextFormattingMode="Display">
+
+    <metro:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/PluginStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type models:Ship}">
+                <TextBlock>
+                    <Run Text="{Binding Level, Mode=OneWay}"/>
+                    <Run Text="{Binding Info.Name, Mode=OneWay}"/>
+                </TextBlock>
+            </DataTemplate>
+        </ResourceDictionary>
+    </metro:MetroWindow.Resources>
+
+    <metro:MetroWindow.DataContext>
+        <viewModels:TableWindowViewModel/>
+    </metro:MetroWindow.DataContext>
+
+    <i:Interaction.Triggers>
+
+        <!--WindowのContentRenderedイベントのタイミングでViewModelのInitializeメソッドが呼ばれます-->
+        <i:EventTrigger EventName="ContentRendered">
+            <livet:LivetCallMethodAction MethodTarget="{Binding}" MethodName="Initialize"/>
+        </i:EventTrigger>
+
+        <!--Windowが閉じたタイミングでViewModelのDisposeメソッドが呼ばれます-->
+        <i:EventTrigger EventName="Closed">
+            <livet:DataContextDisposeAction/>
+        </i:EventTrigger>
+
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- #region CaptionBar -->
+        <Border metro:MetroWindow.IsCaptionBar="True"
+                Panel.ZIndex="100">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <controls:AppIcon Width="36"
+                                  Height="36"
+                                  Background="Transparent"
+                                  AnchorVisibility="Collapsed"
+                                  BandVisibility="Collapsed" />
+
+                <TextBlock Grid.Column="1"
+                           Text="Level Table"
+                           Style="{DynamicResource CaptionTextStyleKey}"
+                           Margin="2,0,8,0" />
+
+                <metro:SystemButtons Grid.Column="2"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top" />
+            </Grid>
+        </Border>
+        <!-- #endregion -->
+
+        
+        <ListView ItemsSource="{Binding ShipTable}"
+                  Grid.Row="1">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="駆逐艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding Destroyer}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="軽巡洋艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding LightCruiser}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="重雷装巡洋艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding TorpedoCruiser}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="重巡洋艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding HeavyCruiser}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="航空巡洋艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding AviationCruiser}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="軽空母">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding LightAircraftCarrier}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="正規・装甲空母">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding AircraftCarrier}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="航空戦艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding AviationBattleShip}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="巡洋戦艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding BattleCruiser}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="戦艦">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding BattleShip}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="潜水艦・潜水空母">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding Submarine}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="その他">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                <ItemsControl ItemsSource="{Binding Other}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</metro:MetroWindow>

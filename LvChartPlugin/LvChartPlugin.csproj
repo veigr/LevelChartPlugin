@@ -118,20 +118,24 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChartWindow.xaml.cs">
-      <DependentUpon>ChartWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ChartWindowViewModel.cs" />
     <Compile Include="LvChart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShipLevelChart.xaml.cs">
+    <Compile Include="Utils.cs" />
+    <Compile Include="ViewModels\ChartWindowViewModel.cs" />
+    <Compile Include="ViewModels\TableWindowViewModel.cs" />
+    <Compile Include="ViewModels\ToolViewModel.cs" />
+    <Compile Include="Views\ChartWindow.xaml.cs">
+      <DependentUpon>ChartWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShipLevelChart.xaml.cs">
       <DependentUpon>ShipLevelChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToolView.xaml.cs">
+    <Compile Include="Views\TableWindow.xaml.cs">
+      <DependentUpon>TableWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolView.xaml.cs">
       <DependentUpon>ToolView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToolViewModel.cs" />
-    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -142,21 +146,25 @@
     <Content Include="KanColleViewerAssemblies\KanColleWrapper.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ChartWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ShipLevelChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Styles\PluginStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToolView.xaml">
+    <Page Include="Views\ChartWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ShipLevelChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TableWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup />

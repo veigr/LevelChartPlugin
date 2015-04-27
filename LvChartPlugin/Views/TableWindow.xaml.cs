@@ -7,27 +7,23 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Grabacr07.KanColleWrapper;
-using Grabacr07.KanColleWrapper.Models;
-using Livet.EventListeners;
+using MetroRadiance.Controls;
 
-namespace LvChartPlugin
+namespace LvChartPlugin.Views
 {
     /// <summary>
-    /// ToolView.xaml の相互作用ロジック
+    /// TableWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ToolView : UserControl
+    public partial class TableWindow : MetroWindow
     {
-
-        public ToolView()
+        public TableWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

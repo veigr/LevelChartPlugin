@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Forms.DataVisualization.Charting;
 using Grabacr07.KanColleWrapper.Models;
 
-namespace LvChartPlugin
+namespace LvChartPlugin.Views
 {
     /// <summary>
     /// ShipLevelChart.xaml の相互作用ロジック

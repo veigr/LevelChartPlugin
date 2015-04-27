@@ -7,11 +7,11 @@ using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
 
-namespace LvChartPlugin
+namespace LvChartPlugin.ViewModels
 {
     public class ChartWindowViewModel : ViewModel
     {
-        private static readonly int CountMaximumDefaulValue = 11;
+        private const int countMaximumDefaulValue = 11;
 
         #region Ships変更通知プロパティ
         private IEnumerable<Ship> _Ships;
@@ -54,13 +54,13 @@ namespace LvChartPlugin
         public int CountMaximumCurrentValue
         {
             get
-            { return _CountMaximumCurrentValue; }
+            { return this._CountMaximumCurrentValue; }
             set
             { 
-                if (_CountMaximumCurrentValue == value)
+                if (this._CountMaximumCurrentValue == value)
                     return;
-                _CountMaximumCurrentValue = value;
-                RaisePropertyChanged();
+                this._CountMaximumCurrentValue = value;
+                this.RaisePropertyChanged();
             }
         }
         #endregion
@@ -105,18 +105,18 @@ namespace LvChartPlugin
 
 
         #region IsCheckALL変更通知プロパティ
-        private bool _IsCheckALL;
+        private bool isCheckAll;
 
-        public bool IsCheckALL
+        public bool IsCheckAll
         {
             get
-            { return this._IsCheckALL; }
+            { return this.isCheckAll; }
             set
             {
-                if (this._IsCheckALL == value)
+                if (this.isCheckAll == value)
                     return;
-                this._IsCheckALL = value;
-                this.CheckALL();
+                this.isCheckAll = value;
+                this.CheckAll();
                 this.RaisePropertyChanged();
             }
         }
@@ -137,10 +137,10 @@ namespace LvChartPlugin
                         SelectionChangedAction = () => this.UpdateView()
                     })
                     .ToArray();
-            this.CountMaximumCurrentValue = CountMaximumDefaulValue;
+            this.CountMaximumCurrentValue = countMaximumDefaulValue;
             this.LevelInterval = 10;
             this.IsLocked = true;
-            this.IsCheckALL = true;
+            this.IsCheckAll = true;
         }
 
         public void Initialize()
@@ -156,13 +156,13 @@ namespace LvChartPlugin
             });
         }
 
-        private void CheckALL()
+        private void CheckAll()
         {
             if (this.ShipTypes == null) return;
 
             foreach (var type in this.ShipTypes)
             {
-                type.IsSelected = this.IsCheckALL;
+                type.IsSelected = this.IsCheckAll;
             }
         }
 
@@ -182,8 +182,8 @@ namespace LvChartPlugin
 
             var maxValue = this.Ships.Any()
                 ? this.Ships.CreateShipData(this.LevelInterval).Values.SumValues().CountMaximum()
-                : CountMaximumDefaulValue;
-            maxValue = Math.Max(maxValue, CountMaximumDefaulValue);
+                : countMaximumDefaulValue;
+            maxValue = Math.Max(maxValue, countMaximumDefaulValue);
 
             this.CountMaximumCurrentValue = Math.Min(this.CountMaximumCurrentValue, maxValue);
             this.CountMaximumMaxValue = maxValue;
