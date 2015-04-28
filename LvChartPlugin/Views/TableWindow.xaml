@@ -25,12 +25,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/PluginStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate DataType="{x:Type models:Ship}">
-                <TextBlock>
-                    <Run Text="{Binding Level, Mode=OneWay}"/>
-                    <Run Text="{Binding Info.Name, Mode=OneWay}"/>
-                </TextBlock>
-            </DataTemplate>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
 
@@ -56,6 +50,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="23" />
         </Grid.RowDefinitions>
 
         <!-- #region CaptionBar -->
@@ -89,12 +84,63 @@
 
         
         <ListView ItemsSource="{Binding ShipTable}"
+                  ScrollViewer.PanningMode="Both"
                   Grid.Row="1">
             <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource GridViewItemContainerStyleKey}">
                     <Setter Property="VerticalContentAlignment" Value="Top"/>
                 </Style>
             </ListView.ItemContainerStyle>
+            <ListView.Resources>
+                <DataTemplate DataType="{x:Type models:Ship}">
+                    <TextBlock>
+                        <Run Text="{Binding Level, Mode=OneWay}"/>
+                        <Run Text="{Binding Info.Name, Mode=OneWay}"/>
+                    </TextBlock>
+                </DataTemplate>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="5,4"/>
+                </Style>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="OverridesDefaultStyle"
+                            Value="True" />
+                    <Setter Property="BorderThickness"
+                            Value="0,0,0,1" />
+                    <Setter Property="BorderBrush"
+                            Value="{DynamicResource BorderBrushKey}" />
+                    <Setter Property="Background"
+                            Value="{DynamicResource BackgroundBrushKey}" />
+                    <Setter Property="Padding"
+                            Value="5,0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                <Grid>
+                                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                    </Border>
+                                    <Thumb x:Name="PART_HeaderGripper"
+                                           HorizontalAlignment="Right"
+                                           BorderBrush="{TemplateBinding BorderBrush}"
+                                           Margin="0,0,-6,0">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Border Background="Transparent"
+                                                        Width="13">
+                                                    <Rectangle Width="1"
+                                                               Stroke="{TemplateBinding BorderBrush}" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="駆逐艦">
@@ -184,5 +230,18 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        
+        <!-- region Status area -->
+        <Grid Grid.Row="2"
+              Background="{DynamicResource AccentBrushKey}"
+              Panel.ZIndex="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <metro:ResizeGrip Grid.Column="1" />
+        </Grid>
+        <!-- endregion -->
     </Grid>
 </metro:MetroWindow>

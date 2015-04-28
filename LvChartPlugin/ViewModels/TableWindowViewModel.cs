@@ -3,6 +3,7 @@ using System.Linq;
 using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
 using Livet;
+using Livet.EventListeners;
 
 namespace LvChartPlugin.ViewModels
 {
@@ -28,6 +29,20 @@ namespace LvChartPlugin.ViewModels
 
         public void Initialize()
         {
+            this.UpdateView();
+            this.CompositeDisposable.Add(new PropertyChangedEventListener(KanColleClient.Current.Homeport.Organization)
+            {
+                {
+                    () => KanColleClient.Current.Homeport.Organization.Ships,
+                    (_, __) => { DispatcherHelper.UIDispatcher.Invoke(this.UpdateView); }
+                }
+            });
+        }
+
+        private void UpdateView()
+        {
+            if (!KanColleClient.Current.IsStarted) return;
+
             this.ShipTable = KanColleClient.Current.Homeport.Organization.Ships.Values
                 .GroupBy(x => x.Level)
                 .Select(x => new ShipTableRow

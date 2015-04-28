@@ -1,11 +1,16 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Icons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Dark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />
+        <!-- 
+        これ読み込むと本体のAccent変更に追従できなくなる。
+        かといって読み込まないとXAMLでエラーが出て気持ち悪い。
+        ThemeServiceの変更通知を元に自力で変えればいけそうだがしかし……
+        -->
+        <!--<ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />-->
 
         <ResourceDictionary Source="pack://application:,,,/Desktop.Metro;component/Styles/Controls.xaml" />
 
