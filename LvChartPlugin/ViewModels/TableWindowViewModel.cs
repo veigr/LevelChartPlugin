@@ -206,7 +206,10 @@ namespace LvChartPlugin.ViewModels
 
         public static ShipViewModel[] ToDisplayValue(this IEnumerable<Ship> ships)
         {
-            return ships.Select(s => new ShipViewModel(s)).ToArray();
+            return ships
+                .OrderBy(s => s.SortNumber)
+                .Select(s => new ShipViewModel(s))
+                .ToArray();
         }
 
         public static string ToSubHeader(this IEnumerable<ShipViewModel> ships)
