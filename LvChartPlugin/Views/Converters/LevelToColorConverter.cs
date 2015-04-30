@@ -32,6 +32,7 @@ namespace LvChartPlugin.Views.Converters
 
             if (previousLv == int.MaxValue) this.CurrentBackground = this.Background2;
 
+            if (99 < currentLv) return this.CurrentBackground;
             if (currentLv / 10 != previousLv / 10) this.SwapBackground();
 
             return this.CurrentBackground;

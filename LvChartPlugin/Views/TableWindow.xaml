@@ -26,9 +26,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/PluginStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
+
+            <!-- memo: 475C72 -->
             <converters:LevelToColorConverter x:Key="LevelToColorConverter"
-                                              Background1="#344454"
+                                              Background1="{StaticResource SemiactiveBackgroundBrushKey}"
                                               Background2="Transparent"/>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
@@ -174,6 +175,7 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="VerticalContentAlignment" Value="Top"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         <Setter Property="OverridesDefaultStyle" Value="True"/>
                         <Setter Property="Background">
                             <Setter.Value>
@@ -191,7 +193,8 @@
                                 <ControlTemplate TargetType="{x:Type ListViewItem}">
                                     <Border Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            MinHeight="20">
                                         <GridViewRowPresenter />
                                     </Border>
                                 </ControlTemplate>
@@ -225,7 +228,8 @@
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 Background="{TemplateBinding Background}">
                                             <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                              HorizontalAlignment="Center">
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center">
                                                 <ContentPresenter.Resources>
                                                     <Style TargetType="{x:Type TextBlock}">
                                                         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -253,8 +257,8 @@
                         </Setter>
                     </Style>
                     <DataTemplate DataType="{x:Type viewModels:ShipViewModel}">
-                        <TextBlock>
-                            <Run Text="{Binding Level, Mode=OneWay, StringFormat=Lv.{0}}"/>
+                        <TextBlock Margin="0,2">
+                            <Run Text="{Binding Level, Mode=OneWay}"/>
                             <Run Text="{Binding Name, Mode=OneWay}"
                                  Foreground="{DynamicResource ActiveForegroundBrushKey}"/>
                         </TextBlock>
@@ -262,6 +266,17 @@
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="Lv">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <TextBlock Text="{Binding Lv}"
+                                               HorizontalAlignment="Right"
+                                               Margin="0,2"
+                                               Foreground="{DynamicResource ActiveForegroundBrushKey}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
                         <GridViewColumn Header="駆逐艦">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>

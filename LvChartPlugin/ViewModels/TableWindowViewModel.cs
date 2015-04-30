@@ -47,27 +47,6 @@ namespace LvChartPlugin.ViewModels
         #endregion
 
 
-        #region IsLocked変更通知プロパティ
-        private bool _IsLocked;
-
-        public bool IsLocked
-        {
-            get
-            { return this._IsLocked; }
-            set
-            {
-                if (this._IsLocked == value)
-                    return;
-                this._IsLocked = value;
-                this.RaisePropertyChanged();
-                this.UpdateView();
-                Properties.Settings.Default.IsLocked = value;
-                Properties.Settings.Default.Save();
-            }
-        }
-        #endregion
-
-
         #region LevelMaximum変更通知プロパティ
         private int _LevelMaximum;
 
@@ -110,6 +89,28 @@ namespace LvChartPlugin.ViewModels
         #endregion
 
 
+        #region IsLocked変更通知プロパティ
+        private bool _IsLocked;
+
+        public bool IsLocked
+        {
+            get
+            { return this._IsLocked; }
+            set
+            {
+                if (this._IsLocked == value)
+                    return;
+                this._IsLocked = value;
+                this.RaisePropertyChanged();
+                this.UpdateView();
+                Properties.Settings.Default.IsLocked = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+        #endregion
+
+
+
         public TableWindowViewModel()
         {
             Properties.Settings.Default.Reload();
@@ -135,7 +136,7 @@ namespace LvChartPlugin.ViewModels
         {
             if (!KanColleClient.Current.IsStarted) return;
 
-            this.ShipTable = KanColleClient.Current.Homeport.Organization.Ships.Values
+            var groupedShips = KanColleClient.Current.Homeport.Organization.Ships.Values
                 .Where(x => !this.IsLocked || x.IsLocked)
                 .Where(x => x.Level <= this.LevelMaximum)
                 .Where(x => this.LevelMinimum <= x.Level)
@@ -156,23 +157,37 @@ namespace LvChartPlugin.ViewModels
                     Submarine = x.Where(s => s.Info.ShipType.Id.Any(13, 14)).ToDisplayValue(),
                     Other = x.Where(s => !s.Info.ShipType.Id.Any(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 18)).ToDisplayValue(),
                 })
+                .ToArray();
+
+            var left = Enumerable.Range(1, 99)
+                .GroupJoin(groupedShips, x => x, x => x.Lv, (lv, row) => row.SingleOrDefault() ?? new ShipTableRow { Lv = lv });
+            var right = groupedShips
+                .GroupJoin(Enumerable.Range(1, 99), x => x.Lv, x => x, (x, y) => x);
+            this.ShipTable = left.Union(right)
+                .Where(x => x.Lv <= this.LevelMaximum)
+                .Where(x => this.LevelMinimum <= x.Lv)
                 .OrderByDescending(x => x.Lv)
                 .ToArray();
 
+            this.UpdateSubHeader(groupedShips);
+        }
+
+        private void UpdateSubHeader(ShipTableRow[] ships)
+        {
             this.ShipTableSubHeader = new ShipTableSubHeader
             {
-                Destroyer = this.ShipTable.SelectMany(x => x.Destroyer).ToSubHeader(),
-                LightCruiser = this.ShipTable.SelectMany(x => x.LightCruiser).ToSubHeader(),
-                TorpedoCruiser = this.ShipTable.SelectMany(x => x.TorpedoCruiser).ToSubHeader(),
-                HeavyCruiser = this.ShipTable.SelectMany(x => x.HeavyCruiser).ToSubHeader(),
-                AviationCruiser = this.ShipTable.SelectMany(x => x.AviationCruiser).ToSubHeader(),
-                LightAircraftCarrier = this.ShipTable.SelectMany(x => x.LightAircraftCarrier).ToSubHeader(),
-                AircraftCarrier = this.ShipTable.SelectMany(x => x.AircraftCarrier).ToSubHeader(),
-                AviationBattleShip = this.ShipTable.SelectMany(x => x.AviationBattleShip).ToSubHeader(),
-                BattleCruiser = this.ShipTable.SelectMany(x => x.BattleCruiser).ToSubHeader(),
-                BattleShip = this.ShipTable.SelectMany(x => x.BattleShip).ToSubHeader(),
-                Submarine = this.ShipTable.SelectMany(x => x.Submarine).ToSubHeader(),
-                Other = this.ShipTable.SelectMany(x => x.Other).ToSubHeader(),
+                Destroyer = ships.SelectMany(x => x.Destroyer).ToSubHeader(),
+                LightCruiser = ships.SelectMany(x => x.LightCruiser).ToSubHeader(),
+                TorpedoCruiser = ships.SelectMany(x => x.TorpedoCruiser).ToSubHeader(),
+                HeavyCruiser = ships.SelectMany(x => x.HeavyCruiser).ToSubHeader(),
+                AviationCruiser = ships.SelectMany(x => x.AviationCruiser).ToSubHeader(),
+                LightAircraftCarrier = ships.SelectMany(x => x.LightAircraftCarrier).ToSubHeader(),
+                AircraftCarrier = ships.SelectMany(x => x.AircraftCarrier).ToSubHeader(),
+                AviationBattleShip = ships.SelectMany(x => x.AviationBattleShip).ToSubHeader(),
+                BattleCruiser = ships.SelectMany(x => x.BattleCruiser).ToSubHeader(),
+                BattleShip = ships.SelectMany(x => x.BattleShip).ToSubHeader(),
+                Submarine = ships.SelectMany(x => x.Submarine).ToSubHeader(),
+                Other = ships.SelectMany(x => x.Other).ToSubHeader(),
             };
         }
     }
