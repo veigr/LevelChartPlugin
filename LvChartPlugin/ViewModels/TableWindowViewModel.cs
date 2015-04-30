@@ -30,17 +30,17 @@ namespace LvChartPlugin.ViewModels
 
 
         #region ShipTableSubHeader変更通知プロパティ
-        private ShipTableHeader _shipTableHeader;
+        private ShipTableSubHeader _ShipTableSubHeader;
 
-        public ShipTableHeader ShipTableHeader
+        public ShipTableSubHeader ShipTableSubHeader
         {
             get
-            { return this._shipTableHeader; }
+            { return this._ShipTableSubHeader; }
             set
-            { 
-                if (this._shipTableHeader == value)
+            {
+                if (this._ShipTableSubHeader == value)
                     return;
-                this._shipTableHeader = value;
+                this._ShipTableSubHeader = value;
                 this.RaisePropertyChanged();
             }
         }
@@ -143,36 +143,36 @@ namespace LvChartPlugin.ViewModels
                 .Select(x => new ShipTableRow
                 {
                     Lv = x.Key,
-                    Destroyer = x.Where(s => s.Info.ShipType.Id == 2).ToDisplayStrings(),
-                    LightCruiser = x.Where(s => s.Info.ShipType.Id == 3).ToDisplayStrings(),
-                    TorpedoCruiser = x.Where(s => s.Info.ShipType.Id == 4).ToDisplayStrings(),
-                    HeavyCruiser = x.Where(s => s.Info.ShipType.Id == 5).ToDisplayStrings(),
-                    AviationCruiser = x.Where(s => s.Info.ShipType.Id == 6).ToDisplayStrings(),
-                    LightAircraftCarrier = x.Where(s => s.Info.ShipType.Id == 7).ToDisplayStrings(),
-                    AircraftCarrier = x.Where(s => s.Info.ShipType.Id.Any(11, 18)).ToDisplayStrings(),
-                    AviationBattleShip = x.Where(s => s.Info.ShipType.Id == 10).ToDisplayStrings(),
-                    BattleCruiser = x.Where(s => s.Info.ShipType.Id == 8).ToDisplayStrings(),
-                    BattleShip = x.Where(s => s.Info.ShipType.Id == 9).ToDisplayStrings(),
-                    Submarine = x.Where(s => s.Info.ShipType.Id.Any(13, 14)).ToDisplayStrings(),
-                    Other = x.Where(s => !s.Info.ShipType.Id.Any(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 18)).ToDisplayStrings(),
+                    Destroyer = x.Where(s => s.Info.ShipType.Id == 2).ToDisplayValue(),
+                    LightCruiser = x.Where(s => s.Info.ShipType.Id == 3).ToDisplayValue(),
+                    TorpedoCruiser = x.Where(s => s.Info.ShipType.Id == 4).ToDisplayValue(),
+                    HeavyCruiser = x.Where(s => s.Info.ShipType.Id == 5).ToDisplayValue(),
+                    AviationCruiser = x.Where(s => s.Info.ShipType.Id == 6).ToDisplayValue(),
+                    LightAircraftCarrier = x.Where(s => s.Info.ShipType.Id == 7).ToDisplayValue(),
+                    AircraftCarrier = x.Where(s => s.Info.ShipType.Id.Any(11, 18)).ToDisplayValue(),
+                    AviationBattleShip = x.Where(s => s.Info.ShipType.Id == 10).ToDisplayValue(),
+                    BattleCruiser = x.Where(s => s.Info.ShipType.Id == 8).ToDisplayValue(),
+                    BattleShip = x.Where(s => s.Info.ShipType.Id == 9).ToDisplayValue(),
+                    Submarine = x.Where(s => s.Info.ShipType.Id.Any(13, 14)).ToDisplayValue(),
+                    Other = x.Where(s => !s.Info.ShipType.Id.Any(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 18)).ToDisplayValue(),
                 })
                 .OrderByDescending(x => x.Lv)
                 .ToArray();
 
-            this.ShipTableHeader = new ShipTableHeader
+            this.ShipTableSubHeader = new ShipTableSubHeader
             {
-                Destroyer = "駆逐艦\r\n" + this.ShipTable.SelectMany(x => x.Destroyer).ToSubHeader(),
-                LightCruiser = "軽巡洋艦\r\n" + this.ShipTable.SelectMany(x => x.LightCruiser).ToSubHeader(),
-                TorpedoCruiser = "重雷装巡洋艦\r\n" + this.ShipTable.SelectMany(x => x.TorpedoCruiser).ToSubHeader(),
-                HeavyCruiser = "重巡洋艦\r\n" + this.ShipTable.SelectMany(x => x.HeavyCruiser).ToSubHeader(),
-                AviationCruiser = "航空巡洋艦\r\n" + this.ShipTable.SelectMany(x => x.AviationCruiser).ToSubHeader(),
-                LightAircraftCarrier = "軽空母\r\n" + this.ShipTable.SelectMany(x => x.LightAircraftCarrier).ToSubHeader(),
-                AircraftCarrier = "正規・装甲空母\r\n" + this.ShipTable.SelectMany(x => x.AircraftCarrier).ToSubHeader(),
-                AviationBattleShip = "航空戦艦\r\n" + this.ShipTable.SelectMany(x => x.AviationBattleShip).ToSubHeader(),
-                BattleCruiser = "巡洋戦艦\r\n" + this.ShipTable.SelectMany(x => x.BattleCruiser).ToSubHeader(),
-                BattleShip = "戦艦\r\n" + this.ShipTable.SelectMany(x => x.BattleShip).ToSubHeader(),
-                Submarine = "潜水艦・潜水空母\r\n" + this.ShipTable.SelectMany(x => x.Submarine).ToSubHeader(),
-                Other = "その他\r\n" + this.ShipTable.SelectMany(x => x.Other).ToSubHeader(),
+                Destroyer = this.ShipTable.SelectMany(x => x.Destroyer).ToSubHeader(),
+                LightCruiser = this.ShipTable.SelectMany(x => x.LightCruiser).ToSubHeader(),
+                TorpedoCruiser = this.ShipTable.SelectMany(x => x.TorpedoCruiser).ToSubHeader(),
+                HeavyCruiser = this.ShipTable.SelectMany(x => x.HeavyCruiser).ToSubHeader(),
+                AviationCruiser = this.ShipTable.SelectMany(x => x.AviationCruiser).ToSubHeader(),
+                LightAircraftCarrier = this.ShipTable.SelectMany(x => x.LightAircraftCarrier).ToSubHeader(),
+                AircraftCarrier = this.ShipTable.SelectMany(x => x.AircraftCarrier).ToSubHeader(),
+                AviationBattleShip = this.ShipTable.SelectMany(x => x.AviationBattleShip).ToSubHeader(),
+                BattleCruiser = this.ShipTable.SelectMany(x => x.BattleCruiser).ToSubHeader(),
+                BattleShip = this.ShipTable.SelectMany(x => x.BattleShip).ToSubHeader(),
+                Submarine = this.ShipTable.SelectMany(x => x.Submarine).ToSubHeader(),
+                Other = this.ShipTable.SelectMany(x => x.Other).ToSubHeader(),
             };
         }
     }
@@ -189,12 +189,12 @@ namespace LvChartPlugin.ViewModels
             return ship.Level + " " + ship.Info.Name;
         }
 
-        public static string[] ToDisplayStrings(this IEnumerable<Ship> ships)
+        public static ShipViewModel[] ToDisplayValue(this IEnumerable<Ship> ships)
         {
-            return ships.Select(s => s.ToDisplayString()).ToArray();
+            return ships.Select(s => new ShipViewModel(s)).ToArray();
         }
 
-        public static string ToSubHeader(this IEnumerable<string> ships)
+        public static string ToSubHeader(this IEnumerable<ShipViewModel> ships)
         {
             return "(" + ships.Count() + " 隻)";
         }
@@ -203,21 +203,21 @@ namespace LvChartPlugin.ViewModels
     public class ShipTableRow
     {
         public int Lv { get; set; }
-        public string[] Destroyer { get; set; }
-        public string[] LightCruiser { get; set; }
-        public string[] TorpedoCruiser { get; set; }
-        public string[] HeavyCruiser { get; set; }
-        public string[] AviationCruiser { get; set; }
-        public string[] LightAircraftCarrier { get; set; }
-        public string[] AircraftCarrier { get; set; }
-        public string[] AviationBattleShip { get; set; }
-        public string[] BattleCruiser { get; set; }
-        public string[] BattleShip { get; set; }
-        public string[] Submarine { get; set; }
-        public string[] Other { get; set; }
+        public ShipViewModel[] Destroyer { get; set; }
+        public ShipViewModel[] LightCruiser { get; set; }
+        public ShipViewModel[] TorpedoCruiser { get; set; }
+        public ShipViewModel[] HeavyCruiser { get; set; }
+        public ShipViewModel[] AviationCruiser { get; set; }
+        public ShipViewModel[] LightAircraftCarrier { get; set; }
+        public ShipViewModel[] AircraftCarrier { get; set; }
+        public ShipViewModel[] AviationBattleShip { get; set; }
+        public ShipViewModel[] BattleCruiser { get; set; }
+        public ShipViewModel[] BattleShip { get; set; }
+        public ShipViewModel[] Submarine { get; set; }
+        public ShipViewModel[] Other { get; set; }
     }
 
-    public class ShipTableHeader
+    public class ShipTableSubHeader
     {
         public string Destroyer { get; set; }
         public string LightCruiser { get; set; }

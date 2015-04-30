@@ -28,7 +28,7 @@
             </ResourceDictionary.MergedDictionaries>
             
             <converters:LevelToColorConverter x:Key="LevelToColorConverter"
-                                              Background1="#7F2970AB"
+                                              Background1="#344454"
                                               Background2="Transparent"/>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
@@ -206,10 +206,7 @@
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Margin" Value="5,4"/>
                     </Style>
-                    <Style TargetType="{x:Type ItemsControl}">
-                        <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}"/>
-                    </Style>
-                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                         <Setter Property="OverridesDefaultStyle"
                             Value="True" />
                         <Setter Property="BorderThickness"
@@ -227,7 +224,14 @@
                                         <Border BorderThickness="{TemplateBinding BorderThickness}"
                                                 BorderBrush="{TemplateBinding BorderBrush}"
                                                 Background="{TemplateBinding Background}">
-                                            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                              HorizontalAlignment="Center">
+                                                <ContentPresenter.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    </Style>
+                                                </ContentPresenter.Resources>
+                                            </ContentPresenter>
                                         </Border>
                                         <Thumb x:Name="PART_HeaderGripper"
                                                HorizontalAlignment="Right"
@@ -248,87 +252,213 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
+                    <DataTemplate DataType="{x:Type viewModels:ShipViewModel}">
+                        <TextBlock>
+                            <Run Text="{Binding Level, Mode=OneWay, StringFormat=Lv.{0}}"/>
+                            <Run Text="{Binding Name, Mode=OneWay}"
+                                 Foreground="{DynamicResource ActiveForegroundBrushKey}"/>
+                        </TextBlock>
+                    </DataTemplate>
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="{Binding ShipTableHeader.Destroyer}">
+                        <GridViewColumn Header="駆逐艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.Destroyer}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding Destroyer}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.LightCruiser}">
+
+                        <GridViewColumn Header="軽巡洋艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.LightCruiser}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding LightCruiser}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.TorpedoCruiser}">
+
+                        <GridViewColumn Header="重雷装巡洋艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.TorpedoCruiser}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding TorpedoCruiser}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.HeavyCruiser}">
+
+                        <GridViewColumn Header="重巡洋艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.HeavyCruiser}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding HeavyCruiser}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.AviationCruiser}">
+
+                        <GridViewColumn Header="航空巡洋艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.AviationCruiser}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding AviationCruiser}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.LightAircraftCarrier}">
+
+                        <GridViewColumn Header="軽空母">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.LightAircraftCarrier}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding LightAircraftCarrier}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.AircraftCarrier}">
+
+                        <GridViewColumn Header="正規・装甲空母">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.AircraftCarrier}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding AircraftCarrier}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.AviationBattleShip}">
+
+                        <GridViewColumn Header="航空戦艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.AviationBattleShip}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding AviationBattleShip}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.BattleCruiser}">
+
+                        <GridViewColumn Header="巡洋戦艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.BattleCruiser}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding BattleCruiser}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.BattleShip}">
+
+                        <GridViewColumn Header="戦艦">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.BattleShip}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding BattleShip}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.Submarine}">
+
+                        <GridViewColumn Header="潜水艦・潜水空母">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.Submarine}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding Submarine}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="{Binding ShipTableHeader.Other}">
+
+                        <GridViewColumn Header="その他">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding}"/>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=GridViewColumnHeader},
+                                            Path=DataContext.ShipTableSubHeader.Other}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
                                     <ItemsControl ItemsSource="{Binding Other}"/>
