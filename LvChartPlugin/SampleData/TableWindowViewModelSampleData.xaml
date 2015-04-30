@@ -1,0 +1,125 @@
+﻿<ViewModels:TableWindowViewModel xmlns:ViewModels="clr-namespace:LvChartPlugin.ViewModels"
+                                 xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <ViewModels:TableWindowViewModel.ShipTableHeader>
+        <ViewModels:ShipTableHeader
+            Destroyer="駆逐艦&#xa;(15 隻)"
+            LightCruiser="軽巡洋艦&#xa;(15 隻)"
+            TorpedoCruiser="重雷装巡洋艦&#xa;(15 隻)"
+            HeavyCruiser="重巡洋艦&#xa;(15 隻)"
+            AviationCruiser="航空巡洋艦&#xa;(15 隻)"
+            LightAircraftCarrier="軽空母&#xa;(15 隻)"
+            AircraftCarrier="正規・装甲空母&#xa;(15 隻)"
+            AviationBattleShip="航空戦艦&#xa;(15 隻)"
+            BattleCruiser="巡洋戦艦&#xa;(15 隻)"
+            BattleShip="戦艦&#xa;(15 隻)"
+            Submarine="潜水艦・潜水空母&#xa;(15 隻)"
+            Other="その他&#xa;(15 隻)"
+            />
+    </ViewModels:TableWindowViewModel.ShipTableHeader>
+    
+    <ViewModels:TableWindowViewModel.ShipTable>
+        <ViewModels:ShipTableRow Lv="99">
+            <ViewModels:ShipTableRow.AviationCruiser>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.AviationCruiser>
+            <ViewModels:ShipTableRow.AviationBattleShip>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.AviationBattleShip>
+            <ViewModels:ShipTableRow.AircraftCarrier>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.AircraftCarrier>
+            <ViewModels:ShipTableRow.BattleShip>
+                <system:String>99 なまえ</system:String>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.BattleShip>
+            <ViewModels:ShipTableRow.BattleCruiser>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.BattleCruiser>
+            <ViewModels:ShipTableRow.Destroyer>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.Destroyer>
+            <ViewModels:ShipTableRow.HeavyCruiser>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.HeavyCruiser>
+            <ViewModels:ShipTableRow.LightCruiser>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.LightCruiser>
+            <ViewModels:ShipTableRow.LightAircraftCarrier>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.LightAircraftCarrier>
+            <ViewModels:ShipTableRow.Other>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.Other>
+            <ViewModels:ShipTableRow.Submarine>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.Submarine>
+            <ViewModels:ShipTableRow.TorpedoCruiser>
+                <system:String>99 なまえ</system:String>
+            </ViewModels:ShipTableRow.TorpedoCruiser>
+        </ViewModels:ShipTableRow>
+
+        <ViewModels:ShipTableRow Lv="50">
+            <ViewModels:ShipTableRow.AviationCruiser>
+                <system:String>50 なまえ</system:String>
+            </ViewModels:ShipTableRow.AviationCruiser>
+            <ViewModels:ShipTableRow.AviationBattleShip>
+            </ViewModels:ShipTableRow.AviationBattleShip>
+            <ViewModels:ShipTableRow.AircraftCarrier>
+            </ViewModels:ShipTableRow.AircraftCarrier>
+            <ViewModels:ShipTableRow.BattleShip>
+            </ViewModels:ShipTableRow.BattleShip>
+            <ViewModels:ShipTableRow.BattleCruiser>
+            </ViewModels:ShipTableRow.BattleCruiser>
+            <ViewModels:ShipTableRow.Destroyer>
+            </ViewModels:ShipTableRow.Destroyer>
+            <ViewModels:ShipTableRow.HeavyCruiser>
+            </ViewModels:ShipTableRow.HeavyCruiser>
+            <ViewModels:ShipTableRow.LightCruiser>
+            </ViewModels:ShipTableRow.LightCruiser>
+            <ViewModels:ShipTableRow.LightAircraftCarrier>
+            </ViewModels:ShipTableRow.LightAircraftCarrier>
+            <ViewModels:ShipTableRow.Other>
+            </ViewModels:ShipTableRow.Other>
+            <ViewModels:ShipTableRow.Submarine>
+            </ViewModels:ShipTableRow.Submarine>
+            <ViewModels:ShipTableRow.TorpedoCruiser>
+            </ViewModels:ShipTableRow.TorpedoCruiser>
+        </ViewModels:ShipTableRow>
+
+        <ViewModels:ShipTableRow Lv="1">
+            <ViewModels:ShipTableRow.AviationCruiser>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.AviationCruiser>
+            <ViewModels:ShipTableRow.AviationBattleShip>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.AviationBattleShip>
+            <ViewModels:ShipTableRow.AircraftCarrier>
+            </ViewModels:ShipTableRow.AircraftCarrier>
+            <ViewModels:ShipTableRow.BattleShip>
+            </ViewModels:ShipTableRow.BattleShip>
+            <ViewModels:ShipTableRow.BattleCruiser>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.BattleCruiser>
+            <ViewModels:ShipTableRow.Destroyer>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.Destroyer>
+            <ViewModels:ShipTableRow.HeavyCruiser>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.HeavyCruiser>
+            <ViewModels:ShipTableRow.LightCruiser>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.LightCruiser>
+            <ViewModels:ShipTableRow.LightAircraftCarrier>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.LightAircraftCarrier>
+            <ViewModels:ShipTableRow.Other>
+            </ViewModels:ShipTableRow.Other>
+            <ViewModels:ShipTableRow.Submarine>
+                <system:String>1 なまえ</system:String>
+            </ViewModels:ShipTableRow.Submarine>
+            <ViewModels:ShipTableRow.TorpedoCruiser>
+            </ViewModels:ShipTableRow.TorpedoCruiser>
+        </ViewModels:ShipTableRow>
+    </ViewModels:TableWindowViewModel.ShipTable>
+</ViewModels:TableWindowViewModel>

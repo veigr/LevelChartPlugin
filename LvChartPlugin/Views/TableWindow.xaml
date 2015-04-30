@@ -5,10 +5,10 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
                    xmlns:viewModels="clr-namespace:LvChartPlugin.ViewModels"
-                   xmlns:models="clr-namespace:Grabacr07.KanColleWrapper.Models;assembly=KanColleWrapper"
                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
                    xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Views.Controls;assembly=KanColleViewer"
+                   xmlns:converters="clr-namespace:LvChartPlugin.Views.Converters"
                    mc:Ignorable="d" 
                    Title="Level Chart"
                    Width="1000"
@@ -18,13 +18,18 @@
                    Foreground="{DynamicResource ActiveForegroundBrushKey}"
                    IsRestoringWindowPlacement="True"
                    SnapsToDevicePixels="True"
-                   TextOptions.TextFormattingMode="Display">
+                   TextOptions.TextFormattingMode="Display"
+                   d:DataContext="{d:DesignData /SampleData/TableWindowViewModelSampleData.xaml}">
 
     <metro:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/PluginStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
+            <converters:LevelToColorConverter x:Key="LevelToColorConverter"
+                                              Background1="#7F2970AB"
+                                              Background2="Transparent"/>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
 
@@ -82,154 +87,261 @@
         </Border>
         <!-- #endregion -->
 
-        
-        <ListView ItemsSource="{Binding ShipTable}"
-                  ScrollViewer.PanningMode="Both"
-                  Grid.Row="1">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource GridViewItemContainerStyleKey}">
-                    <Setter Property="VerticalContentAlignment" Value="Top"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.Resources>
-                <DataTemplate DataType="{x:Type models:Ship}">
-                    <TextBlock>
-                        <Run Text="{Binding Level, Mode=OneWay}"/>
-                        <Run Text="{Binding Info.Name, Mode=OneWay}"/>
-                    </TextBlock>
-                </DataTemplate>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Margin" Value="5,4"/>
-                </Style>
-                <Style TargetType="{x:Type GridViewColumnHeader}">
-                    <Setter Property="OverridesDefaultStyle"
-                            Value="True" />
-                    <Setter Property="BorderThickness"
-                            Value="0,0,0,1" />
-                    <Setter Property="BorderBrush"
-                            Value="{DynamicResource BorderBrushKey}" />
-                    <Setter Property="Background"
-                            Value="{DynamicResource BackgroundBrushKey}" />
-                    <Setter Property="Padding"
-                            Value="5,0"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
-                                <Grid>
-                                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+
+            <Expander Grid.Column="0"
+                      ExpandDirection="Left"
+                      Header="Settings"
+                      Background="{DynamicResource ActiveBackgroundBrushKey}">
+                <Expander.Style>
+                    <Style/>
+                </Expander.Style>
+                <Expander.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"
+                                   Style="{DynamicResource DefaultTextStyleKey}"
+                                   Margin="5">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </DataTemplate>
+                </Expander.HeaderTemplate>
+
+                <Border BorderBrush="{DynamicResource BorderBrushKey}"
+                        BorderThickness="2">
+
+                    <Grid Width="130"
+                          Background="{DynamicResource ThemeBrushKey}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="1">
+
+                            <TextBlock Text="Level Maximum"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5,5,5,0"/>
+                            <Slider x:Name="LevelMaximumSlider"
+                                    Maximum="150"
+                                    Minimum="0"
+                                    TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    TickFrequency="10"
+                                    Value="{Binding LevelMaximum}"
+                                    AutoToolTipPlacement="BottomRight"
+                                    Margin="5"/>
+
+                            <TextBlock Text="Level Minimum"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5,5,5,0"/>
+                            <Slider x:Name="LevelMinimumSlider"
+                                    Maximum="150"
+                                    Minimum="0"
+                                    TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    TickFrequency="10"
+                                    Value="{Binding LevelMinimum}"
+                                    AutoToolTipPlacement="BottomRight"
+                                    Margin="5"/>
+
+
+                            <Rectangle Height="1"
+                                       Margin="5"
+                                       Style="{DynamicResource SeparatorRectangleStyleKey}" />
+
+                            <TextBlock Text="Locked Only"
+                                       Style="{DynamicResource DefaultTextStyleKey}"
+                                       Margin="5"/>
+                            <CheckBox Content="IsLocked"
+                                      IsChecked="{Binding IsLocked, Mode=TwoWay}"
+                                      Margin="5"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Expander>
+
+            <ListView ItemsSource="{Binding ShipTable}"
+                      ScrollViewer.PanningMode="Both"
+                      Grid.Column="1">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="VerticalContentAlignment" Value="Top"/>
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource LevelToColorConverter}">
+                                    <Binding/>
+                                    <Binding RelativeSource="{RelativeSource PreviousData}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border Background="{TemplateBinding Background}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                            Background="{TemplateBinding Background}">
-                                        <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <GridViewRowPresenter />
                                     </Border>
-                                    <Thumb x:Name="PART_HeaderGripper"
-                                           HorizontalAlignment="Right"
-                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                           Margin="0,0,-6,0">
-                                        <Thumb.Template>
-                                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                                <Border Background="Transparent"
-                                                        Width="13">
-                                                    <Rectangle Width="1"
-                                                               Stroke="{TemplateBinding BorderBrush}" />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Thumb.Template>
-                                    </Thumb>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.Resources>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="駆逐艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding Destroyer}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="軽巡洋艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding LightCruiser}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="重雷装巡洋艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding TorpedoCruiser}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="重巡洋艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding HeavyCruiser}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="航空巡洋艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding AviationCruiser}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="軽空母">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding LightAircraftCarrier}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="正規・装甲空母">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding AircraftCarrier}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="航空戦艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding AviationBattleShip}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="巡洋戦艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding BattleCruiser}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="戦艦">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding BattleShip}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="潜水艦・潜水空母">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding Submarine}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="その他">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
-                                <ItemsControl ItemsSource="{Binding Other}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="VerticalContentAlignment" Value="Top"/>
+                    </Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Margin" Value="5,4"/>
+                    </Style>
+                    <Style TargetType="{x:Type ItemsControl}">
+                        <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrushKey}"/>
+                    </Style>
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="OverridesDefaultStyle"
+                            Value="True" />
+                        <Setter Property="BorderThickness"
+                            Value="0,0,0,1" />
+                        <Setter Property="BorderBrush"
+                            Value="{DynamicResource BorderBrushKey}" />
+                        <Setter Property="Background"
+                            Value="{DynamicResource BackgroundBrushKey}" />
+                        <Setter Property="Padding"
+                            Value="5,0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                    <Grid>
+                                        <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                                        </Border>
+                                        <Thumb x:Name="PART_HeaderGripper"
+                                               HorizontalAlignment="Right"
+                                               BorderBrush="{TemplateBinding BorderBrush}"
+                                               Margin="0,0,-6,0">
+                                            <Thumb.Template>
+                                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                                    <Border Background="Transparent"
+                                                            Width="13">
+                                                        <Rectangle Width="1"
+                                                                   Stroke="{TemplateBinding BorderBrush}" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Thumb.Template>
+                                        </Thumb>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="{Binding ShipTableHeader.Destroyer}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding Destroyer}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.LightCruiser}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding LightCruiser}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.TorpedoCruiser}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding TorpedoCruiser}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.HeavyCruiser}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding HeavyCruiser}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.AviationCruiser}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding AviationCruiser}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.LightAircraftCarrier}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding LightAircraftCarrier}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.AircraftCarrier}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding AircraftCarrier}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.AviationBattleShip}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding AviationBattleShip}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.BattleCruiser}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding BattleCruiser}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.BattleShip}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding BattleShip}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.Submarine}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding Submarine}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Binding ShipTableHeader.Other}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:ShipTableRow}">
+                                    <ItemsControl ItemsSource="{Binding Other}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        
+        
+        
         
         <!-- region Status area -->
         <Grid Grid.Row="2"
