@@ -4,6 +4,8 @@
 
 ![Sample](LevelChartSample.png)
 
+![Sample](LevelTableSample.png)
+
 ### インストール
 
 * `LvChartPlugin.dll` を KanColleViewer の `Plugins` ディレクトリに放り込んで下さい。
