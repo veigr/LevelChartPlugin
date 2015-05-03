@@ -7,7 +7,7 @@ namespace LvChartPlugin
     [Export(typeof(IToolPlugin))]
     [ExportMetadata("Title", "LvChart")]
     [ExportMetadata("Description", "Level チャート を表示します。")]
-    [ExportMetadata("Version", "1.1.0")]
+    [ExportMetadata("Version", "1.2.0")]
     [ExportMetadata("Author", "@veigr")]
     public class LvChart : IToolPlugin
     {
