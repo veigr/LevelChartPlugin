@@ -27,8 +27,8 @@ namespace LvChartPlugin.Views.Converters
 
             var current = values[0] as ShipTableRow;
             var previous = values[1] as ShipTableRow;
-            var currentLv = current != null ? current.Lv : int.MaxValue;
-            var previousLv = previous != null ? previous.Lv : int.MaxValue;
+            var currentLv = current?.Lv ?? int.MaxValue;
+            var previousLv = previous?.Lv ?? int.MaxValue;
 
             if (previousLv == int.MaxValue) this.CurrentBackground = this.Background2;
 

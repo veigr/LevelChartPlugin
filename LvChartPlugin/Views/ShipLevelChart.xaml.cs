@@ -150,7 +150,7 @@ namespace LvChartPlugin.Views
 
         private void AddChartArea<TX>(string areaName, IReadOnlyDictionary<TX, Tuple<int, string>> areaValue, int yMax)
         {
-            var area = this.CreateArea(areaName + " (" + areaValue.Sum(x => x.Value.Item1) + " 隻)", yMax);
+            var area = this.CreateArea($"{areaName} ({areaValue.Sum(x => x.Value.Item1)} 隻)", yMax);
             this.Chart.ChartAreas.Add(area);
 
             var series = new Series(area.Name)

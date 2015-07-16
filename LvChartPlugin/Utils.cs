@@ -16,9 +16,7 @@ namespace LvChartPlugin
         }
 
         public static string ToTypeName(this ShipType type)
-        {
-            return type.Id == 8 ? "èÑómêÌäÕ" : type.Name;
-        }
+            => type.Id == 8 ? "èÑómêÌäÕ" : type.Name;
 
         public static IReadOnlyDictionary<ShipType, IReadOnlyDictionary<string, Tuple<int, string>>> CreateShipData(
             this IEnumerable<Ship> ships, int interval = 10, int min = 0, int max = 150)
@@ -61,9 +59,7 @@ namespace LvChartPlugin
         }
 
         public static int CountMaximum<TX>(this IReadOnlyDictionary<TX, Tuple<int, string>> source)
-        {
-            return source.Max(x => x.Value.Item1) + 1;
-        }
+            => source.Max(x => x.Value.Item1) + 1;
 
         private static IReadOnlyDictionary<string, Tuple<int, string>> GroupByLevel(
             this IEnumerable<Ship> ships,
@@ -89,10 +85,8 @@ namespace LvChartPlugin
         }
 
         private static Dictionary<string, Tuple<int, string>> CreateLevelGroupsDictionary(int interval, int min, int max)
-        {
-            return CreateLevelGroups(interval, min, max)
+            => CreateLevelGroups(interval, min, max)
                 .ToDictionary(x => x, x => Tuple.Create(0, ""));
-        }
 
         private static IEnumerable<string> CreateLevelGroups(int interval, int min, int max)
         {
@@ -110,9 +104,7 @@ namespace LvChartPlugin
         }
 
         private static string ToTooltipNames(this IEnumerable<Ship> ships)
-        {
-            return string.Join(", ", ships.OrderByDescending(x => x.Level).Select(x => x.Info.Name));
-        }
+            => string.Join(", ", ships.OrderByDescending(x => x.Level).Select(x => x.Info.Name));
 
         private static string JoinString(this string value1, string separator, string value2)
         {

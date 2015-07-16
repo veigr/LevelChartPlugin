@@ -33,7 +33,8 @@
                                                       IsOwned="False" />
         </livet:InteractionMessageTrigger>
     </i:Interaction.Triggers>
-    <Grid>
+    
+    <Grid Margin="8,4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

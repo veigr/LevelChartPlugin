@@ -195,27 +195,19 @@ namespace LvChartPlugin.ViewModels
     internal static class TableWindowViewModelExtensions
     {
         public static bool Any(this int src, params int[] values)
-        {
-            return values.Any(v => v == src);
-        }
+            => values.Any(v => v == src);
 
         public static string ToDisplayString(this Ship ship)
-        {
-            return ship.Level + " " + ship.Info.Name;
-        }
+            => $"{ship.Level} {ship.Info.Name}";
 
         public static ShipViewModel[] ToDisplayValue(this IEnumerable<Ship> ships)
-        {
-            return ships
+            => ships
                 .OrderBy(s => s.SortNumber)
                 .Select(s => new ShipViewModel(s))
                 .ToArray();
-        }
 
         public static string ToSubHeader(this IEnumerable<ShipViewModel> ships)
-        {
-            return "(" + ships.Count() + " 隻)";
-        }
+            => $"({ships.Count()} 隻)";
     }
 
     public class ShipTableRow
