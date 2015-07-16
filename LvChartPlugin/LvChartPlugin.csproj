@@ -37,53 +37,45 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BCMakeCert">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\BCMakeCert.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CertMaker">
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\CertMaker.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Desktop.Metro, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="KanColleViewer.Composition, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>KanColleViewerAssemblies\Desktop.Metro.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>KanColleViewerAssemblies\KanColleViewer.Composition.dll</HintPath>
     </Reference>
-    <Reference Include="FiddlerCore4, Version=4.4.8.4, Culture=neutral, PublicKeyToken=67cb91587178ac5a, processorArchitecture=MSIL">
+    <Reference Include="KanColleViewer.Controls, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FiddlerCore.4.4.8.4\lib\net40\FiddlerCore4.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>KanColleViewerAssemblies\KanColleViewer.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="KanColleViewer, Version=3.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>KanColleViewerAssemblies\KanColleViewer.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="KanColleWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="KanColleWrapper, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>KanColleViewerAssemblies\KanColleWrapper.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Livet">
       <HintPath>..\packages\LivetCask.1.1.0.0\lib\net45\Livet.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MetroRadiance">
-      <HintPath>..\packages\MetroRadiance.1.0.16\lib\net45\MetroRadiance.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="MetroRadiance.Chrome">
-      <HintPath>..\packages\MetroRadiance.Chrome.1.0.0\lib\net45\MetroRadiance.Chrome.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="MetroRadiance, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroRadiance.1.1.0.0\lib\net45\MetroRadiance.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="MetroRadiance.Core">
-      <HintPath>..\packages\MetroRadiance.Core.1.0.0\lib\net45\MetroRadiance.Core.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="MetroRadiance.Chrome, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroRadiance.Chrome.1.1.0.0\lib\net45\MetroRadiance.Chrome.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetroRadiance.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroRadiance.Core.1.1.0.0\lib\net45\MetroRadiance.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MetroRadiance.1.0.16\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\packages\MetroRadiance.Chrome.1.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nekoxy, Version=1.2.0.13, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nekoxy.1.2.0.13\lib\net45\Nekoxy.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -91,23 +83,23 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\..\KanColleViewer\packages\Rx-Core.2.2.4\lib\net45\System.Reactive.Core.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\..\KanColleViewer\packages\Rx-Interfaces.2.2.4\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\..\KanColleViewer\packages\Rx-Linq.2.2.4\lib\net45\System.Reactive.Linq.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MetroRadiance.1.0.16\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\packages\MetroRadiance.Chrome.1.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -115,6 +107,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TrotiNet, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nekoxy.1.2.0.13\lib\net45\TrotiNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -128,6 +124,7 @@
     </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="ViewModels\ChartWindowViewModel.cs" />
+    <Compile Include="ViewModels\ShipTypeViewModel.cs" />
     <Compile Include="ViewModels\ShipViewModel.cs" />
     <Compile Include="ViewModels\TableWindowViewModel.cs" />
     <Compile Include="ViewModels\ToolViewModel.cs" />
@@ -154,11 +151,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="KanColleViewerAssemblies\Desktop.Metro.dll" />
-    <Content Include="KanColleViewerAssemblies\KanColleViewer.exe" />
-    <Content Include="KanColleViewerAssemblies\KanColleWrapper.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Styles\PluginStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,6 +174,15 @@
   </ItemGroup>
   <ItemGroup>
     <DesignData Include="SampleData\TableWindowViewModelSampleData.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="KanColleViewerAssemblies\KanColleViewer.Composition.dll" />
+    <Content Include="KanColleViewerAssemblies\KanColleViewer.Controls.dll" />
+    <Content Include="KanColleViewerAssemblies\KanColleViewer.PluginAnalyzer.dll" />
+    <Content Include="KanColleViewerAssemblies\KanColleWrapper.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="KanColleViewerAssemblies\KanColleViewer.PluginAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

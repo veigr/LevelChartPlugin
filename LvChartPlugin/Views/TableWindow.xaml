@@ -7,7 +7,7 @@
                    xmlns:viewModels="clr-namespace:LvChartPlugin.ViewModels"
                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                    xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
-                   xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Views.Controls;assembly=KanColleViewer"
+                   xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Controls;assembly=KanColleViewer.Controls"
                    xmlns:converters="clr-namespace:LvChartPlugin.Views.Converters"
                    mc:Ignorable="d" 
                    Title="Level Chart"

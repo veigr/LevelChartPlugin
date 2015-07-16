@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Grabacr07.KanColleViewer.Views;
 using MetroRadiance.Controls;
 
 namespace LvChartPlugin.Views
@@ -12,9 +11,9 @@ namespace LvChartPlugin.Views
     {
         public TableWindow()
         {
-            InitializeComponent();
-            WeakEventManager<MainWindow, EventArgs>.AddHandler(
-                MainWindow.Current,
+            this.InitializeComponent();
+            WeakEventManager<Window, EventArgs>.AddHandler(
+                Application.Current.MainWindow,
                 "Closed",
                 (_, __) => this.Close());
         }

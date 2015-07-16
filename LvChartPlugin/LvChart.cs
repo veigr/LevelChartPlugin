@@ -4,28 +4,21 @@ using LvChartPlugin.ViewModels;
 
 namespace LvChartPlugin
 {
-    [Export(typeof(IToolPlugin))]
+    [Export(typeof(IPlugin))]
+    [Export(typeof(ITool))]
+    [ExportMetadata("Guid", "626E91CE-A031-4FB6-8E02-E52906A665BA")]
     [ExportMetadata("Title", "LvChart")]
     [ExportMetadata("Description", "Level チャート を表示します。")]
-    [ExportMetadata("Version", "1.2.0")]
+    [ExportMetadata("Version", "1.3.0")]
     [ExportMetadata("Author", "@veigr")]
-    public class LvChart : IToolPlugin
+    public class LvChart : IPlugin, ITool
     {
         private readonly ToolViewModel vm = new ToolViewModel();
+        
+        public void Initialize() {}
 
-        public object GetToolView()
-        {
-            return new Views.ToolView { DataContext = this.vm };
-        }
+        public string Name => "LvChart";
 
-        public string ToolName
-        {
-            get { return "LvChart"; }
-        }
-
-        public object GetSettingsView()
-        {
-            return null;
-        }
+        public object View => new Views.ToolView {DataContext = this.vm};
     }
 }

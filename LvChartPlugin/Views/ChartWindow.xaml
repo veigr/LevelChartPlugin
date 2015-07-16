@@ -6,7 +6,7 @@
                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                    xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
                    xmlns:metro="http://schemes.grabacr.net/winfx/2014/controls"
-                   xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Views.Controls;assembly=KanColleViewer"
+                   xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Controls;assembly=KanColleViewer.Controls"
                    xmlns:lvChartPlugin="clr-namespace:LvChartPlugin"
                    xmlns:viewModels="clr-namespace:LvChartPlugin.ViewModels"
                    xmlns:views="clr-namespace:LvChartPlugin.Views"
