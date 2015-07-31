@@ -16,7 +16,7 @@ namespace LvChartPlugin
         }
 
         public static string ToTypeName(this ShipType type)
-            => type.Id == 8 ? "èÑómêÌäÕ" : type.Name;
+            => type.Id == 8 ? "Â∑°Ê¥ãÊà¶Ëâ¶" : type.Name;
 
         public static IReadOnlyDictionary<ShipType, IReadOnlyDictionary<string, Tuple<int, string>>> CreateShipData(
             this IEnumerable<Ship> ships, int interval = 10, int min = 0, int max = 150)
@@ -100,7 +100,7 @@ namespace LvChartPlugin
         {
             var div = level / interval;
             var min = div * interval;
-            return min + "Å`";
+            return min + "ÔΩû";
         }
 
         private static string ToTooltipNames(this IEnumerable<Ship> ships)
