@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using Grabacr07.KanColleViewer.Composition;
 using LvChartPlugin.ViewModels;
-using LvChartPlugin.Views;
 
 namespace LvChartPlugin
 {
@@ -14,12 +13,12 @@ namespace LvChartPlugin
     [ExportMetadata("Author", "@veigr")]
     public class LvChart : IPlugin, ITool
     {
-        private readonly ToolView v = new ToolView { DataContext = new ToolViewModel() };
+        private readonly ToolViewModel vm = new ToolViewModel();
         
         public void Initialize() {}
 
         public string Name => "LvChart";
 
-        public object View => this.v;
+        public object View => new Views.ToolView {DataContext = this.vm};
     }
 }
