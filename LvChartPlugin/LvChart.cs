@@ -19,6 +19,7 @@ namespace LvChartPlugin
 
         public string Name => "LvChart";
 
+        // タブ表示するたびに new されてしまうが、今のところ new しないとマルチウィンドウで正常に表示されない
         public object View => new Views.ToolView {DataContext = this.vm};
     }
 }
