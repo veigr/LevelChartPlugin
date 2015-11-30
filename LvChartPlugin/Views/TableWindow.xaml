@@ -19,7 +19,8 @@
                    IsRestoringWindowPlacement="True"
                    SnapsToDevicePixels="True"
                    TextOptions.TextFormattingMode="Display"
-                   d:DataContext="{d:DesignData /SampleData/TableWindowViewModelSampleData.xaml}">
+                   d:DataContext="{d:DesignData /SampleData/TableWindowViewModelSampleData.xaml}"
+                   metro:ThemeHelper.HasThemeResources="True">
 
     <metro:MetroWindow.Resources>
         <ResourceDictionary>

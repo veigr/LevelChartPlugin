@@ -15,12 +15,7 @@
         <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Icons.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Dark.xaml" />
-        <!-- 
-        これ読み込むと本体のAccent変更に追従できなくなる。
-        かといって読み込まないとXAMLでエラーが出て気持ち悪い。
-        ThemeServiceの変更通知を元に自力で変えればいけそうだがしかし……
-        -->
-        <!--<ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />-->
+        <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/KanColleViewer.Controls;component/Styles/Colors.xaml" />
         <ResourceDictionary Source="pack://application:,,,/KanColleViewer.Controls;component/Styles/Controls.xaml" />
