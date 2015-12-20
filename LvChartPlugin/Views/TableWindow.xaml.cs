@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using MetroRadiance.Controls;
+using MetroRadiance.UI.Controls;
 
 namespace LvChartPlugin.Views
 {

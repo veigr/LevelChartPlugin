@@ -86,13 +86,13 @@
             </Grid.ColumnDefinitions>
             
             <views:ShipLevelChart Grid.Column="0"
-                                          Ships="{Binding Ships}"
-                                          Background="{DynamicResource ThemeBrushKey}"
-                                          Foreground="{DynamicResource ForegroundBrushKey}"
-                                          CountMaximum="{Binding ElementName=CountMaximumSlider, Path=Value, Mode=OneWay}"
-                                          LevelMaximum="{Binding ElementName=LevelMaximumSlider, Path=Value, Mode=OneWay}"
-                                          LevelMinimum="{Binding ElementName=LevelMinimumSlider, Path=Value, Mode=OneWay}"
-                                          LevelInterval="{Binding ElementName=LevelIntervalSlider, Path=Value, Mode=OneWay}"/>
+                                  Ships="{Binding Ships}"
+                                  Background="{DynamicResource ThemeBrushKey}"
+                                  Foreground="{DynamicResource ForegroundBrushKey}"
+                                  CountMaximum="{Binding ElementName=CountMaximumSlider, Path=Value, Mode=OneWay}"
+                                  LevelMaximum="{Binding ElementName=LevelMaximumSlider, Path=Value, Mode=OneWay}"
+                                  LevelMinimum="{Binding ElementName=LevelMinimumSlider, Path=Value, Mode=OneWay}"
+                                  LevelInterval="{Binding ElementName=LevelIntervalSlider, Path=Value, Mode=OneWay}"/>
             
             <Expander Grid.Column="1"
                       ExpandDirection="Right"
