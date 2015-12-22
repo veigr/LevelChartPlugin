@@ -7,11 +7,10 @@ using LvChartPlugin.ViewModels;
 
 namespace LvChartPlugin.Views.Converters
 {
-    public class LevelToColorConverter : IMultiValueConverter
+    public class LevelToColorConverter : IValueConverter
     {
         public Brush Background1 { get; set; }
         public Brush Background2 { get; set; }
-        private Brush CurrentBackground { get; set; }
 
         public LevelToColorConverter()
         {
@@ -19,35 +18,21 @@ namespace LvChartPlugin.Views.Converters
             this.Background2 = new SolidColorBrush(Colors.Transparent);
         }
 
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var defaultValue = new SolidColorBrush(Colors.Transparent);
-            if (values.Length != 2) return defaultValue;
-            if (!values.Any(x => x is ShipTableRow)) return defaultValue;
+            var row = value as ShipTableRow;
+            if (row == null) return defaultValue;
 
-            var current = values[0] as ShipTableRow;
-            var previous = values[1] as ShipTableRow;
-            var currentLv = current?.Lv ?? int.MaxValue;
-            var previousLv = previous?.Lv ?? int.MaxValue;
-
-            if (previousLv == int.MaxValue) this.CurrentBackground = this.Background2;
-
-            if (99 < currentLv) return this.CurrentBackground;
-            if (currentLv / 10 != previousLv / 10) this.SwapBackground();
-
-            return this.CurrentBackground;
+            if (99 < row.Lv) return this.Background1;
+            return row.Lv / 10 % 2 == 0 ? this.Background1 : this.Background2;
+            // 1-99 まで空きも埋めてる場合は↑でも大丈夫
+            //return row.IndexOfTensPlacesDescending() % 2 == 0 ? this.Background1 : this.Background2;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }
-
-        private void SwapBackground()
-        {
-            this.CurrentBackground = this.CurrentBackground.Equals(this.Background1)
-                ? this.Background2
-                : this.Background1;
         }
     }
 }

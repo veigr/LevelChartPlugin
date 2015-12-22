@@ -5,6 +5,7 @@ using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
+using System;
 
 namespace LvChartPlugin.ViewModels
 {
@@ -143,6 +144,7 @@ namespace LvChartPlugin.ViewModels
                 .GroupBy(x => x.Level)
                 .Select(x => new ShipTableRow
                 {
+                    Parent = this,
                     Lv = x.Key,
                     Destroyer = x.Where(s => s.Info.ShipType.Id == 2).ToDisplayValue(),
                     LightCruiser = x.Where(s => s.Info.ShipType.Id == 3).ToDisplayValue(),
@@ -160,7 +162,7 @@ namespace LvChartPlugin.ViewModels
                 .ToArray();
 
             var left = Enumerable.Range(1, 99)
-                .GroupJoin(groupedShips, x => x, x => x.Lv, (lv, row) => row.SingleOrDefault() ?? new ShipTableRow { Lv = lv });
+                .GroupJoin(groupedShips, x => x, x => x.Lv, (lv, row) => row.SingleOrDefault() ?? new ShipTableRow { Parent = this, Lv = lv });
             var right = groupedShips
                 .GroupJoin(Enumerable.Range(1, 99), x => x.Lv, x => x, (x, y) => x);
             this.ShipTable = left.Union(right)
@@ -208,10 +210,25 @@ namespace LvChartPlugin.ViewModels
 
         public static string ToSubHeader(this IEnumerable<ShipViewModel> ships)
             => $"({ships.Count()} 隻)";
+
+        public static int IndexOfTensPlacesDescending(this ShipTableRow row)
+        {
+            if (row?.Parent?.ShipTable == null) return -1;
+
+            if (99 < row.Lv) return 0;
+            var tensPlaces = row.Parent.ShipTable
+                                .Where(x => x.Lv < 100)
+                                .GroupBy(x => x.Lv / 10)
+                                .Select(x => x.Key)
+                                .OrderByDescending(x => x)
+                                .ToArray();
+            return Array.IndexOf(tensPlaces, row.Lv / 10) + 1;
+        }
     }
 
     public class ShipTableRow
     {
+        public TableWindowViewModel Parent { get; set; }
         public int Lv { get; set; }
         public ShipViewModel[] Destroyer { get; set; }
         public ShipViewModel[] LightCruiser { get; set; }

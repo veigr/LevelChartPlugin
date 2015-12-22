@@ -30,8 +30,8 @@
 
             <!-- memo: 475C72 -->
             <converters:LevelToColorConverter x:Key="LevelToColorConverter"
-                                              Background1="{StaticResource SemiactiveBackgroundBrushKey}"
-                                              Background2="Transparent"/>
+                                              Background1="Transparent"
+                                              Background2="{StaticResource SemiactiveBackgroundBrushKey}"/>
         </ResourceDictionary>
     </metro:MetroWindow.Resources>
 
@@ -172,20 +172,15 @@
 
             <ListView ItemsSource="{Binding ShipTable}"
                       ScrollViewer.PanningMode="Both"
+                      VirtualizingPanel.IsVirtualizing="False"
                       Grid.Column="1">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="VerticalContentAlignment" Value="Top"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         <Setter Property="OverridesDefaultStyle" Value="True"/>
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <MultiBinding Converter="{StaticResource LevelToColorConverter}">
-                                    <Binding/>
-                                    <Binding RelativeSource="{RelativeSource PreviousData}"/>
-                                </MultiBinding>
-                            </Setter.Value>
-                        </Setter>
+                        <Setter Property="Background"
+                                Value="{Binding Converter={StaticResource LevelToColorConverter}}"/>
                         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}" />
                         <Setter Property="BorderThickness" Value="0,0,0,1" />
                         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
