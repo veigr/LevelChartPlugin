@@ -26,8 +26,6 @@ namespace LvChartPlugin.Views.Converters
 
             if (99 < row.Lv) return this.Background1;
             return row.Lv / 10 % 2 == 0 ? this.Background1 : this.Background2;
-            // 1-99 まで空きも埋めてる場合は↑でも大丈夫
-            //return row.IndexOfTensPlacesDescending() % 2 == 0 ? this.Background1 : this.Background2;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
