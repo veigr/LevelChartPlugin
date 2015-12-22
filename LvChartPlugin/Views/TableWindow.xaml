@@ -132,7 +132,7 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMaximumSlider"
-                                    Maximum="150"
+                                    Maximum="160"
                                     Minimum="0"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"
@@ -145,7 +145,7 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMinimumSlider"
-                                    Maximum="150"
+                                    Maximum="160"
                                     Minimum="0"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"

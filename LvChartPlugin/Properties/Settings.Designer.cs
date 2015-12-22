@@ -25,7 +25,7 @@ namespace LvChartPlugin.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        [global::System.Configuration.DefaultSettingValueAttribute("160")]
         public int LevelMaximum {
             get {
                 return ((int)(this["LevelMaximum"]));

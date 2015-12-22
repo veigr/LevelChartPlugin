@@ -142,12 +142,12 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMaximumSlider"
-                                    Maximum="150"
+                                    Maximum="160"
                                     Minimum="9"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"
                                     TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
-                                    Value="150"
+                                    Value="160"
                                     AutoToolTipPlacement="BottomRight"
                                     Margin="5"/>
 
@@ -155,7 +155,7 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMinimumSlider"
-                                    Maximum="150"
+                                    Maximum="160"
                                     Minimum="0"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"
