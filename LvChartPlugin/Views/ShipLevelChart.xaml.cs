@@ -84,7 +84,7 @@ namespace LvChartPlugin.Views
 
         // Using a DependencyProperty as the backing store for LevelMaximum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LevelMaximumProperty =
-            DependencyProperty.Register("LevelMaximum", typeof(int), typeof(ShipLevelChart), new PropertyMetadata(150, ParamsChanges));
+            DependencyProperty.Register("LevelMaximum", typeof(int), typeof(ShipLevelChart), new PropertyMetadata(155, ParamsChanges));
 
 
         #endregion
