@@ -9,6 +9,7 @@
                    xmlns:livet="http://schemas.livet-mvvm.net/2011/wpf"
                    xmlns:controls="clr-namespace:Grabacr07.KanColleViewer.Controls;assembly=KanColleViewer.Controls"
                    xmlns:converters="clr-namespace:LvChartPlugin.Views.Converters"
+                   xmlns:settings="clr-namespace:LvChartPlugin.Settings"
                    mc:Ignorable="d" 
                    Title="Level Chart"
                    Width="1000"
@@ -99,7 +100,8 @@
             <Expander Grid.Column="0"
                       ExpandDirection="Left"
                       Header="Settings"
-                      Background="{DynamicResource ActiveBackgroundBrushKey}">
+                      Background="{DynamicResource ActiveBackgroundBrushKey}"
+                      IsExpanded="{Binding Source={x:Static settings:TableSettings.IsExpand}, Path=Value, Mode=TwoWay}">
                 <Expander.Style>
                     <Style/>
                 </Expander.Style>
@@ -132,7 +134,7 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMaximumSlider"
-                                    Maximum="160"
+                                    Maximum="{Binding Source={x:Static settings:CommonSettings.LevelLimit}, Path=Value, Mode=OneWay}"
                                     Minimum="0"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"
@@ -145,7 +147,7 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMinimumSlider"
-                                    Maximum="160"
+                                    Maximum="{Binding Source={x:Static settings:CommonSettings.LevelLimit}, Path=Value, Mode=OneWay}"
                                     Minimum="0"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"

@@ -6,6 +6,7 @@ using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
 using System;
+using LvChartPlugin.Settings;
 
 namespace LvChartPlugin.ViewModels
 {
@@ -60,10 +61,9 @@ namespace LvChartPlugin.ViewModels
                 if (this._LevelMaximum == value)
                     return;
                 this._LevelMaximum = value;
+                TableSettings.LevelMaximum.Value = value;
                 this.RaisePropertyChanged();
                 this.UpdateView();
-                Properties.Settings.Default.LevelMaximum = value;
-                Properties.Settings.Default.Save();
             }
         }
         #endregion
@@ -81,10 +81,9 @@ namespace LvChartPlugin.ViewModels
                 if (this._LevelMinimum == value)
                     return;
                 this._LevelMinimum = value;
+                TableSettings.LevelMinimum.Value = value;
                 this.RaisePropertyChanged();
                 this.UpdateView();
-                Properties.Settings.Default.LevelMinimum = value;
-                Properties.Settings.Default.Save();
             }
         }
         #endregion
@@ -102,10 +101,9 @@ namespace LvChartPlugin.ViewModels
                 if (this._IsLocked == value)
                     return;
                 this._IsLocked = value;
+                TableSettings.IsLocked.Value = value;
                 this.RaisePropertyChanged();
                 this.UpdateView();
-                Properties.Settings.Default.IsLocked = value;
-                Properties.Settings.Default.Save();
             }
         }
         #endregion
@@ -114,11 +112,9 @@ namespace LvChartPlugin.ViewModels
 
         public TableWindowViewModel()
         {
-            Properties.Settings.Default.Reload();
-            var settings = Properties.Settings.Default;
-            this._LevelMaximum = settings.LevelMaximum;
-            this._LevelMinimum = settings.LevelMinimum;
-            this._IsLocked = settings.IsLocked;
+            this._LevelMaximum = TableSettings.LevelMaximum;
+            this._LevelMinimum = TableSettings.LevelMinimum;
+            this._IsLocked = TableSettings.IsLocked;
         }
 
         public void Initialize()

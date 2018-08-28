@@ -5,13 +5,12 @@ using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
 using Livet;
 using Livet.EventListeners;
+using LvChartPlugin.Settings;
 
 namespace LvChartPlugin.ViewModels
 {
     public class ChartWindowViewModel : ViewModel
     {
-        private const int countMaximumDefaulValue = 11;
-
         #region Ships変更通知プロパティ
         private IEnumerable<Ship> _Ships;
 
@@ -59,6 +58,7 @@ namespace LvChartPlugin.ViewModels
                 if (this._CountMaximumCurrentValue == value)
                     return;
                 this._CountMaximumCurrentValue = value;
+                ChartSettings.CountMaximumCurrentValue.Value = value;
                 this.RaisePropertyChanged();
             }
         }
@@ -77,6 +77,7 @@ namespace LvChartPlugin.ViewModels
                 if (this._LevelInterval == value)
                     return;
                 this._LevelInterval = value;
+                ChartSettings.LevelInterval.Value = value;
                 this.UpdateCountMaximum();
                 this.RaisePropertyChanged();
             }
@@ -96,6 +97,7 @@ namespace LvChartPlugin.ViewModels
                 if (this._IsLocked == value)
                     return;
                 this._IsLocked = value;
+                ChartSettings.IsLocked.Value = value;
                 this.UpdateView();
                 this.RaisePropertyChanged();
             }
@@ -126,20 +128,31 @@ namespace LvChartPlugin.ViewModels
         public ChartWindowViewModel()
         {
             if (KanColleClient.Current.IsStarted)
-                this.ShipTypes = KanColleClient.Current.Master.Ships //艦娘マスタで使ってるタイプだけ
-                    .Where(x => x.Value.Id < 501 || 900 < x.Value.Id) //敵以外
+            {
+                var masterShipTypes = KanColleClient.Current.Master.Ships //艦娘マスタで使ってるタイプだけ
+                    .Where(x => x.Value.Id < 1500) //敵以外
                     .GroupBy(x => x.Value.ShipType, (key, elements) => key)
-                    .OrderBy(x => x.Id)
-                    .Select(x => new ShipTypeViewModel(x) //艦娘一覧の使い回し。本体の変更で死ぬ可能性……
+                    .OrderBy(x => x.Id);
+                if(ChartSettings.SelectedShipTypes.Value == null)
+                {
+                    ChartSettings.SelectedShipTypes.Value = masterShipTypes.Select(x => x.Id).ToArray();
+                }
+                this.ShipTypes = masterShipTypes
+                    .Select(type => new ShipTypeViewModel(type)
                     {
-                        IsSelected = true,
-                        SelectionChangedAction = () => this.UpdateView()
+                        IsSelected = ChartSettings.SelectedShipTypes.Value.Any(id => type.Id == id),
+                        SelectionChangedAction = () =>
+                        {
+                            ChartSettings.SelectedShipTypes.Value = this.ShipTypes.Where(x => x.IsSelected).Select(x => x.Id).ToArray();
+                            this.UpdateView();
+                        }
                     })
                     .ToArray();
-            this.CountMaximumCurrentValue = countMaximumDefaulValue;
-            this.LevelInterval = 10;
-            this.IsLocked = true;
-            this.IsCheckAll = true;
+            }
+            this.CountMaximumCurrentValue = ChartSettings.CountMaximumCurrentValue;
+            this.LevelInterval = ChartSettings.LevelInterval;
+            this.IsLocked = ChartSettings.IsLocked;
+            this.IsCheckAll = this.ShipTypes.All(x => x.IsSelected);
         }
 
         public void Initialize()
@@ -180,9 +193,9 @@ namespace LvChartPlugin.ViewModels
             if (this.Ships == null) return;
 
             var maxValue = this.Ships.Any()
-                ? this.Ships.CreateShipData(this.LevelInterval).Values.SumValues().CountMaximum()
-                : countMaximumDefaulValue;
-            maxValue = Math.Max(maxValue, countMaximumDefaulValue);
+                ? this.Ships.CreateShipData(this.LevelInterval, 0, CommonSettings.LevelLimit).Values.SumValues().CountMaximum()
+                : ChartSettings.CountMaximumCurrentValue.Default;
+            maxValue = Math.Max(maxValue, ChartSettings.CountMaximumCurrentValue.Default);
 
             this.CountMaximumCurrentValue = Math.Min(this.CountMaximumCurrentValue, maxValue);
             this.CountMaximumMaxValue = maxValue;

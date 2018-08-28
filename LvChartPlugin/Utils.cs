@@ -19,7 +19,7 @@ namespace LvChartPlugin
             => type.Id == 8 ? "巡洋戦艦" : type.Name;
 
         public static IReadOnlyDictionary<ShipType, IReadOnlyDictionary<string, Tuple<int, string>>> CreateShipData(
-            this IEnumerable<Ship> ships, int interval = 10, int min = 0, int max = 150)
+            this IEnumerable<Ship> ships, int interval, int min, int max)
         {
             var minimum = min < max ? min : max;
             var maximum = min < max ? max : min;

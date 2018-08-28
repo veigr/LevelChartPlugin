@@ -10,6 +10,7 @@
                    xmlns:lvChartPlugin="clr-namespace:LvChartPlugin"
                    xmlns:viewModels="clr-namespace:LvChartPlugin.ViewModels"
                    xmlns:views="clr-namespace:LvChartPlugin.Views"
+                   xmlns:settings="clr-namespace:LvChartPlugin.Settings"
                    mc:Ignorable="d"
                    Title="Level Chart"
                    Width="1000"
@@ -97,6 +98,7 @@
             <Expander Grid.Column="1"
                       ExpandDirection="Right"
                       Header="Settings"
+                      IsExpanded="{Binding Source={x:Static settings:ChartSettings.IsExpand}, Path=Value, Mode=TwoWay}"
                       Background="{DynamicResource ActiveBackgroundBrushKey}">
                 <Expander.Style>
                     <Style/>
@@ -142,12 +144,12 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMaximumSlider"
-                                    Maximum="160"
+                                    Maximum="{Binding Source={x:Static settings:CommonSettings.LevelLimit}, Path=Value, Mode=OneWay}"
                                     Minimum="9"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"
                                     TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
-                                    Value="160"
+                                    Value="{Binding Source={x:Static settings:ChartSettings.LevelMaximumSliderValue}, Path=Value, Mode=TwoWay}"
                                     AutoToolTipPlacement="BottomRight"
                                     Margin="5"/>
 
@@ -155,12 +157,12 @@
                                        Style="{DynamicResource DefaultTextStyleKey}"
                                        Margin="5,5,5,0"/>
                             <Slider x:Name="LevelMinimumSlider"
-                                    Maximum="160"
+                                    Maximum="{Binding Source={x:Static settings:CommonSettings.LevelLimit}, Path=Value, Mode=OneWay}"
                                     Minimum="0"
                                     TickPlacement="BottomRight"
                                     IsSnapToTickEnabled="True"
                                     TickFrequency="{Binding ElementName=LevelIntervalSlider, Path=Value}"
-                                    Value="0"
+                                    Value="{Binding Source={x:Static settings:ChartSettings.LevelMinimumSliderValue}, Path=Value, Mode=TwoWay}"
                                     AutoToolTipPlacement="BottomRight"
                                     Margin="5"/>
 
